@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -519,7 +520,7 @@ TEST_CASE("JSON patch")
                 // document.
 
                 // An example target JSON document:
-                json const doc = 17;
+                json const doc = IMPLICIT_CAST 17;
 
                 // A JSON Patch document:
                 json const patch = R"(
@@ -610,7 +611,7 @@ TEST_CASE("JSON patch")
 
         SECTION("replace")
         {
-            json const j = "string";
+            json const j = IMPLICIT_CAST "string";
             json const patch = {{{"op", "replace"}, {"path", ""}, {"value", 1}}};
             CHECK(j.patch(patch) == json(1));
         }
@@ -650,7 +651,7 @@ TEST_CASE("JSON patch")
                 CHECK(j == R"(["good","bad",{"it":"cattivo"}])"_json);
 
                 // use user-defined string literal
-                j["/2/en"_json_pointer] = "ugly";
+                j["/2/en"_json_pointer] = IMPLICIT_CAST "ugly";
                 CHECK(j == R"(["good","bad",{"en":"ugly","it":"cattivo"}])"_json);
 
                 json flat = j.flatten();
@@ -798,7 +799,7 @@ TEST_CASE("JSON patch")
 
             SECTION("root element as target location")
             {
-                json const j = "string";
+                json const j = IMPLICIT_CAST "string";
                 json const patch = {{{"op", "remove"}, {"path", ""}}};
                 CHECK_THROWS_WITH_AS(j.patch(patch), "[json.exception.out_of_range.405] JSON pointer has no parent", json::out_of_range&);
             }

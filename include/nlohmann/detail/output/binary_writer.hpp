@@ -395,7 +395,7 @@ class binary_writer
                 // step 2: write each element
                 for (const auto& el : *j.m_data.m_value.object)
                 {
-                    write_cbor(el.first);
+                    write_cbor(json(el.first));
                     write_cbor(el.second);
                 }
                 break;
@@ -717,7 +717,7 @@ class binary_writer
                 // step 2: write each element
                 for (const auto& el : *j.m_data.m_value.object)
                 {
-                    write_msgpack(el.first);
+                    write_msgpack(json(el.first));
                     write_msgpack(el.second);
                 }
                 break;

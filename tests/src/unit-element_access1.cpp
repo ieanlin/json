@@ -8,6 +8,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -163,7 +164,7 @@ TEST_CASE("element access 1")
                     SECTION("implicit transformation to properly filled array")
                     {
                         json j_nonarray;
-                        j_nonarray[3] = 42;
+                        j_nonarray[3] = IMPLICIT_CAST 42;
                         CHECK(j_nonarray == json({nullptr, nullptr, nullptr, 42}));
                     }
                 }
@@ -451,12 +452,12 @@ TEST_CASE("element access 1")
             SECTION("string")
             {
                 {
-                    json j = "foo";
+                    json j = IMPLICIT_CAST "foo";
                     CHECK(j.front() == j);
                     CHECK(j.back() == j);
                 }
                 {
-                    const json j = "bar";
+                    const json j = IMPLICIT_CAST "bar";
                     CHECK(j.front() == j);
                     CHECK(j.back() == j);
                 }
@@ -465,12 +466,12 @@ TEST_CASE("element access 1")
             SECTION("number (boolean)")
             {
                 {
-                    json j = false;
+                    json j = IMPLICIT_CAST false;
                     CHECK(j.front() == j);
                     CHECK(j.back() == j);
                 }
                 {
-                    const json j = true;
+                    const json j = IMPLICIT_CAST true;
                     CHECK(j.front() == j);
                     CHECK(j.back() == j);
                 }
@@ -479,12 +480,12 @@ TEST_CASE("element access 1")
             SECTION("number (integer)")
             {
                 {
-                    json j = 17;
+                    json j = IMPLICIT_CAST 17;
                     CHECK(j.front() == j);
                     CHECK(j.back() == j);
                 }
                 {
-                    const json j = 17;
+                    const json j = IMPLICIT_CAST 17;
                     CHECK(j.front() == j);
                     CHECK(j.back() == j);
                 }
@@ -493,12 +494,12 @@ TEST_CASE("element access 1")
             SECTION("number (unsigned)")
             {
                 {
-                    json j = 17u;
+                    json j = IMPLICIT_CAST 17u;
                     CHECK(j.front() == j);
                     CHECK(j.back() == j);
                 }
                 {
-                    const json j = 17u;
+                    const json j = IMPLICIT_CAST 17u;
                     CHECK(j.front() == j);
                     CHECK(j.back() == j);
                 }
@@ -507,12 +508,12 @@ TEST_CASE("element access 1")
             SECTION("number (floating point)")
             {
                 {
-                    json j = 23.42;
+                    json j = IMPLICIT_CAST 23.42;
                     CHECK(j.front() == j);
                     CHECK(j.back() == j);
                 }
                 {
-                    const json j = 23.42;
+                    const json j = IMPLICIT_CAST 23.42;
                     CHECK(j.front() == j);
                     CHECK(j.back() == j);
                 }
@@ -537,13 +538,13 @@ TEST_CASE("element access 1")
             SECTION("string")
             {
                 {
-                    json j = "foo";
+                    json j = IMPLICIT_CAST "foo";
                     json::iterator it = j.erase(j.begin());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
                 }
                 {
-                    json j = "bar";
+                    json j = IMPLICIT_CAST "bar";
                     json::const_iterator it = j.erase(j.cbegin());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
@@ -553,13 +554,13 @@ TEST_CASE("element access 1")
             SECTION("number (boolean)")
             {
                 {
-                    json j = false;
+                    json j = IMPLICIT_CAST false;
                     json::iterator it = j.erase(j.begin());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
                 }
                 {
-                    json j = true;
+                    json j = IMPLICIT_CAST true;
                     json::const_iterator it = j.erase(j.cbegin());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
@@ -569,13 +570,13 @@ TEST_CASE("element access 1")
             SECTION("number (integer)")
             {
                 {
-                    json j = 17;
+                    json j = IMPLICIT_CAST 17;
                     json::iterator it = j.erase(j.begin());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
                 }
                 {
-                    json j = 17;
+                    json j = IMPLICIT_CAST 17;
                     json::const_iterator it = j.erase(j.cbegin());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
@@ -585,13 +586,13 @@ TEST_CASE("element access 1")
             SECTION("number (unsigned)")
             {
                 {
-                    json j = 17u;
+                    json j = IMPLICIT_CAST 17u;
                     json::iterator it = j.erase(j.begin());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
                 }
                 {
-                    json j = 17u;
+                    json j = IMPLICIT_CAST 17u;
                     json::const_iterator it = j.erase(j.cbegin());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
@@ -601,13 +602,13 @@ TEST_CASE("element access 1")
             SECTION("number (floating point)")
             {
                 {
-                    json j = 23.42;
+                    json j = IMPLICIT_CAST 23.42;
                     json::iterator it = j.erase(j.begin());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
                 }
                 {
-                    json j = 23.42;
+                    json j = IMPLICIT_CAST 23.42;
                     json::const_iterator it = j.erase(j.cbegin());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
@@ -636,11 +637,11 @@ TEST_CASE("element access 1")
             SECTION("string")
             {
                 {
-                    json j = "foo";
+                    json j = IMPLICIT_CAST "foo";
                     CHECK_THROWS_WITH_AS(j.erase(j.end()), "[json.exception.invalid_iterator.205] iterator out of range", json::invalid_iterator&);
                 }
                 {
-                    json j = "bar";
+                    json j = IMPLICIT_CAST "bar";
                     CHECK_THROWS_WITH_AS(j.erase(j.cend()), "[json.exception.invalid_iterator.205] iterator out of range", json::invalid_iterator&);
                 }
             }
@@ -648,11 +649,11 @@ TEST_CASE("element access 1")
             SECTION("number (boolean)")
             {
                 {
-                    json j = false;
+                    json j = IMPLICIT_CAST false;
                     CHECK_THROWS_WITH_AS(j.erase(j.end()), "[json.exception.invalid_iterator.205] iterator out of range", json::invalid_iterator&);
                 }
                 {
-                    json j = true;
+                    json j = IMPLICIT_CAST true;
                     CHECK_THROWS_WITH_AS(j.erase(j.cend()), "[json.exception.invalid_iterator.205] iterator out of range", json::invalid_iterator&);
                 }
             }
@@ -660,11 +661,11 @@ TEST_CASE("element access 1")
             SECTION("number (integer)")
             {
                 {
-                    json j = 17;
+                    json j = IMPLICIT_CAST 17;
                     CHECK_THROWS_WITH_AS(j.erase(j.end()), "[json.exception.invalid_iterator.205] iterator out of range", json::invalid_iterator&);
                 }
                 {
-                    json j = 17;
+                    json j = IMPLICIT_CAST 17;
                     CHECK_THROWS_WITH_AS(j.erase(j.cend()), "[json.exception.invalid_iterator.205] iterator out of range", json::invalid_iterator&);
                 }
             }
@@ -672,11 +673,11 @@ TEST_CASE("element access 1")
             SECTION("number (unsigned)")
             {
                 {
-                    json j = 17u;
+                    json j = IMPLICIT_CAST 17u;
                     CHECK_THROWS_WITH_AS(j.erase(j.end()), "[json.exception.invalid_iterator.205] iterator out of range", json::invalid_iterator&);
                 }
                 {
-                    json j = 17u;
+                    json j = IMPLICIT_CAST 17u;
                     CHECK_THROWS_WITH_AS(j.erase(j.cend()), "[json.exception.invalid_iterator.205] iterator out of range", json::invalid_iterator&);
                 }
             }
@@ -684,11 +685,11 @@ TEST_CASE("element access 1")
             SECTION("number (floating point)")
             {
                 {
-                    json j = 23.42;
+                    json j = IMPLICIT_CAST 23.42;
                     CHECK_THROWS_WITH_AS(j.erase(j.end()), "[json.exception.invalid_iterator.205] iterator out of range", json::invalid_iterator&);
                 }
                 {
-                    json j = 23.42;
+                    json j = IMPLICIT_CAST 23.42;
                     CHECK_THROWS_WITH_AS(j.erase(j.cend()), "[json.exception.invalid_iterator.205] iterator out of range", json::invalid_iterator&);
                 }
             }
@@ -711,13 +712,13 @@ TEST_CASE("element access 1")
             SECTION("string")
             {
                 {
-                    json j = "foo";
+                    json j = IMPLICIT_CAST "foo";
                     json::iterator it = j.erase(j.begin(), j.end());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
                 }
                 {
-                    json j = "bar";
+                    json j = IMPLICIT_CAST "bar";
                     json::const_iterator it = j.erase(j.cbegin(), j.cend());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
@@ -727,13 +728,13 @@ TEST_CASE("element access 1")
             SECTION("number (boolean)")
             {
                 {
-                    json j = false;
+                    json j = IMPLICIT_CAST false;
                     json::iterator it = j.erase(j.begin(), j.end());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
                 }
                 {
-                    json j = true;
+                    json j = IMPLICIT_CAST true;
                     json::const_iterator it = j.erase(j.cbegin(), j.cend());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
@@ -743,13 +744,13 @@ TEST_CASE("element access 1")
             SECTION("number (integer)")
             {
                 {
-                    json j = 17;
+                    json j = IMPLICIT_CAST 17;
                     json::iterator it = j.erase(j.begin(), j.end());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
                 }
                 {
-                    json j = 17;
+                    json j = IMPLICIT_CAST 17;
                     json::const_iterator it = j.erase(j.cbegin(), j.cend());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
@@ -759,13 +760,13 @@ TEST_CASE("element access 1")
             SECTION("number (unsigned)")
             {
                 {
-                    json j = 17u;
+                    json j = IMPLICIT_CAST 17u;
                     json::iterator it = j.erase(j.begin(), j.end());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
                 }
                 {
-                    json j = 17u;
+                    json j = IMPLICIT_CAST 17u;
                     json::const_iterator it = j.erase(j.cbegin(), j.cend());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
@@ -775,13 +776,13 @@ TEST_CASE("element access 1")
             SECTION("number (floating point)")
             {
                 {
-                    json j = 23.42;
+                    json j = IMPLICIT_CAST 23.42;
                     json::iterator it = j.erase(j.begin(), j.end());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
                 }
                 {
-                    json j = 23.42;
+                    json j = IMPLICIT_CAST 23.42;
                     json::const_iterator it = j.erase(j.cbegin(), j.cend());
                     CHECK(j.type() == json::value_t::null);
                     CHECK(it == j.end());
@@ -810,12 +811,12 @@ TEST_CASE("element access 1")
             SECTION("string")
             {
                 {
-                    json j = "foo";
+                    json j = IMPLICIT_CAST "foo";
                     CHECK_THROWS_WITH_AS(j.erase(j.end(), j.end()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     CHECK_THROWS_WITH_AS(j.erase(j.begin(), j.begin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                 }
                 {
-                    json j = "bar";
+                    json j = IMPLICIT_CAST "bar";
                     CHECK_THROWS_WITH_AS(j.erase(j.cend(), j.cend()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     CHECK_THROWS_WITH_AS(j.erase(j.cbegin(), j.cbegin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                 }
@@ -824,12 +825,12 @@ TEST_CASE("element access 1")
             SECTION("number (boolean)")
             {
                 {
-                    json j = false;
+                    json j = IMPLICIT_CAST false;
                     CHECK_THROWS_WITH_AS(j.erase(j.end(), j.end()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     CHECK_THROWS_WITH_AS(j.erase(j.begin(), j.begin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                 }
                 {
-                    json j = true;
+                    json j = IMPLICIT_CAST true;
                     CHECK_THROWS_WITH_AS(j.erase(j.cend(), j.cend()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     CHECK_THROWS_WITH_AS(j.erase(j.cbegin(), j.cbegin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                 }
@@ -838,12 +839,12 @@ TEST_CASE("element access 1")
             SECTION("number (integer)")
             {
                 {
-                    json j = 17;
+                    json j = IMPLICIT_CAST 17;
                     CHECK_THROWS_WITH_AS(j.erase(j.end(), j.end()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     CHECK_THROWS_WITH_AS(j.erase(j.begin(), j.begin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                 }
                 {
-                    json j = 17;
+                    json j = IMPLICIT_CAST 17;
                     CHECK_THROWS_WITH_AS(j.erase(j.cend(), j.cend()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     CHECK_THROWS_WITH_AS(j.erase(j.cbegin(), j.cbegin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                 }
@@ -852,12 +853,12 @@ TEST_CASE("element access 1")
             SECTION("number (unsigned)")
             {
                 {
-                    json j = 17u;
+                    json j = IMPLICIT_CAST 17u;
                     CHECK_THROWS_WITH_AS(j.erase(j.end(), j.end()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     CHECK_THROWS_WITH_AS(j.erase(j.begin(), j.begin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                 }
                 {
-                    json j = 17u;
+                    json j = IMPLICIT_CAST 17u;
                     CHECK_THROWS_WITH_AS(j.erase(j.cend(), j.cend()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     CHECK_THROWS_WITH_AS(j.erase(j.cbegin(), j.cbegin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                 }
@@ -866,12 +867,12 @@ TEST_CASE("element access 1")
             SECTION("number (floating point)")
             {
                 {
-                    json j = 23.42;
+                    json j = IMPLICIT_CAST 23.42;
                     CHECK_THROWS_WITH_AS(j.erase(j.end(), j.end()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     CHECK_THROWS_WITH_AS(j.erase(j.begin(), j.begin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                 }
                 {
-                    json j = 23.42;
+                    json j = IMPLICIT_CAST 23.42;
                     CHECK_THROWS_WITH_AS(j.erase(j.cend(), j.cend()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     CHECK_THROWS_WITH_AS(j.erase(j.cbegin(), j.cbegin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                 }

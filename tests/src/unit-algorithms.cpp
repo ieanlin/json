@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #include <algorithm>
 #include <nlohmann/json.hpp>
@@ -78,7 +79,7 @@ TEST_CASE("algorithms")
                 {
                     if (value.is_array())
                     {
-                        value.push_back(17);
+                        value.push_back(IMPLICIT_CAST 17);
                     }
                 };
 
@@ -296,6 +297,7 @@ TEST_CASE("algorithms")
         CHECK(j_array == json({false, true, 3, 13, 29, {{"one", 1}, {"two", 2}}, {1, 2, 3}, "baz", "foo"}));
     }
 
+#if JSON_USE_IMPLICIT_CONSTRUCTORS == 1
     SECTION("iota")
     {
         SECTION("int")
@@ -318,6 +320,7 @@ TEST_CASE("algorithms")
             CHECK(json_arr == json({'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}));
         }
     }
+#endif
 
     SECTION("copy")
     {

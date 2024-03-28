@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -315,7 +316,7 @@ TEST_CASE("object inspection")
             ss.str(std::string());
 
             // use stringstream for JSON serialization
-            json const j_number = 3.14159265358979;
+            json const j_number = IMPLICIT_CAST 3.14159265358979;
             ss << j_number;
 
             // check that precision has been overridden during serialization
@@ -344,49 +345,49 @@ TEST_CASE("object inspection")
     {
         SECTION("null")
         {
-            json const j = nullptr;
+            json const j = IMPLICIT_CAST nullptr;
             CHECK(j.type() == json::value_t::null);
         }
 
         SECTION("object")
         {
-            json const j = {{"foo", "bar"}};
+            json const j = IMPLICIT_CAST {{"foo", "bar"}};
             CHECK(j.type() == json::value_t::object);
         }
 
         SECTION("array")
         {
-            json const j = {1, 2, 3, 4};
+            json const j = IMPLICIT_CAST {1, 2, 3, 4};
             CHECK(j.type() == json::value_t::array);
         }
 
         SECTION("boolean")
         {
-            json const j = true;
+            json const j = IMPLICIT_CAST true;
             CHECK(j.type() == json::value_t::boolean);
         }
 
         SECTION("string")
         {
-            json const j = "Hello world";
+            json const j = IMPLICIT_CAST "Hello world";
             CHECK(j.type() == json::value_t::string);
         }
 
         SECTION("number (integer)")
         {
-            json const j = 23;
+            json const j = IMPLICIT_CAST 23;
             CHECK(j.type() == json::value_t::number_integer);
         }
 
         SECTION("number (unsigned)")
         {
-            json const j = 23u;
+            json const j = IMPLICIT_CAST 23u;
             CHECK(j.type() == json::value_t::number_unsigned);
         }
 
         SECTION("number (floating-point)")
         {
-            json const j = 42.23;
+            json const j = IMPLICIT_CAST 42.23;
             CHECK(j.type() == json::value_t::number_float);
         }
     }
@@ -395,56 +396,56 @@ TEST_CASE("object inspection")
     {
         SECTION("null")
         {
-            json const j = nullptr;
+            json const j = IMPLICIT_CAST nullptr;
             json::value_t t = j;
             CHECK(t == j.type());
         }
 
         SECTION("object")
         {
-            json const j = {{"foo", "bar"}};
+            json const j = IMPLICIT_CAST {{"foo", "bar"}};
             json::value_t t = j;
             CHECK(t == j.type());
         }
 
         SECTION("array")
         {
-            json const j = {1, 2, 3, 4};
+            json const j = IMPLICIT_CAST {1, 2, 3, 4};
             json::value_t t = j;
             CHECK(t == j.type());
         }
 
         SECTION("boolean")
         {
-            json const j = true;
+            json const j = IMPLICIT_CAST true;
             json::value_t t = j;
             CHECK(t == j.type());
         }
 
         SECTION("string")
         {
-            json const j = "Hello world";
+            json const j = IMPLICIT_CAST "Hello world";
             json::value_t t = j;
             CHECK(t == j.type());
         }
 
         SECTION("number (integer)")
         {
-            json const j = 23;
+            json const j = IMPLICIT_CAST 23;
             json::value_t t = j;
             CHECK(t == j.type());
         }
 
         SECTION("number (unsigned)")
         {
-            json const j = 23u;
+            json const j = IMPLICIT_CAST 23u;
             json::value_t t = j;
             CHECK(t == j.type());
         }
 
         SECTION("number (floating-point)")
         {
-            json const j = 42.23;
+            json const j = IMPLICIT_CAST 42.23;
             json::value_t t = j;
             CHECK(t == j.type());
         }

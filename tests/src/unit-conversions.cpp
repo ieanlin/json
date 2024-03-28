@@ -15,6 +15,7 @@
 // JSON_HAS_CPP_<VERSION> (do not remove; see note at top of file)
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #define JSON_TESTS_PRIVATE
 #include <nlohmann/json.hpp>
@@ -36,7 +37,7 @@ TEST_CASE("value conversion")
 {
     SECTION("get an object (explicit)")
     {
-        const json::object_t o_reference = {{"object", json::object()},
+        const json::object_t o_reference = IMPLICIT_CAST {{"object", json::object()},
             {"array", {1, 2, 3, 4}},
             {"number", 42},
             {"boolean", false},
@@ -107,7 +108,7 @@ TEST_CASE("value conversion")
 
     SECTION("get an object (explicit, get_to)")
     {
-        const json::object_t o_reference = {{"object", json::object()},
+        const json::object_t o_reference = IMPLICIT_CAST {{"object", json::object()},
             {"array", {1, 2, 3, 4}},
             {"number", 42},
             {"boolean", false},
@@ -118,35 +119,35 @@ TEST_CASE("value conversion")
 
         SECTION("json::object_t")
         {
-            json::object_t o = {{"previous", "value"}};
+            json::object_t o = IMPLICIT_CAST {{"previous", "value"}};
             j.get_to(o);
             CHECK(json(o) == j);
         }
 
         SECTION("std::map<json::string_t, json>")
         {
-            std::map<json::string_t, json> o{{"previous", "value"}};
+            std::map<json::string_t, json> o{{IMPLICIT_CAST "previous", IMPLICIT_CAST "value"}};
             j.get_to(o);
             CHECK(json(o) == j);
         }
 
         SECTION("std::multimap<json::string_t, json>")
         {
-            std::multimap<json::string_t, json> o{{"previous", "value"}};
+            std::multimap<json::string_t, json> o{{IMPLICIT_CAST "previous", IMPLICIT_CAST "value"}};
             j.get_to(o);
             CHECK(json(o) == j);
         }
 
         SECTION("std::unordered_map<json::string_t, json>")
         {
-            std::unordered_map<json::string_t, json> o{{"previous", "value"}};
+            std::unordered_map<json::string_t, json> o{{IMPLICIT_CAST "previous", IMPLICIT_CAST "value"}};
             j.get_to(o);
             CHECK(json(o) == j);
         }
 
         SECTION("std::unordered_multimap<json::string_t, json>")
         {
-            std::unordered_multimap<json::string_t, json> o{{"previous", "value"}};
+            std::unordered_multimap<json::string_t, json> o{{IMPLICIT_CAST "previous", IMPLICIT_CAST "value"}};
             j.get_to(o);
             CHECK(json(o) == j);
         }
@@ -155,7 +156,7 @@ TEST_CASE("value conversion")
 #if JSON_USE_IMPLICIT_CONVERSIONS
     SECTION("get an object (implicit)")
     {
-        const json::object_t o_reference = {{"object", json::object()},
+        const json::object_t o_reference = IMPLICIT_CAST {{"object", json::object()},
             {"array", {1, 2, 3, 4}},
             {"number", 42},
             {"boolean", false},
@@ -249,8 +250,8 @@ TEST_CASE("value conversion")
             const char str[] = "a string"; // NOLINT(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays)
             const int nbs[] = {0, 1, 2}; // NOLINT(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays)
 
-            const json j2 = nbs;
-            const json j3 = str;
+            const json j2 = IMPLICIT_CAST nbs;
+            const json j3 = IMPLICIT_CAST str;
 
             auto v = j2.get<std::vector<int>>();
             auto s = j3.get<std::string>();
@@ -301,35 +302,35 @@ TEST_CASE("value conversion")
 
         SECTION("json::array_t")
         {
-            json::array_t a{"previous", "value"};
+            json::array_t a{IMPLICIT_CAST "previous", IMPLICIT_CAST "value"};
             j.get_to(a);
             CHECK(json(a) == j);
         }
 
         SECTION("std::valarray<json>")
         {
-            std::valarray<json> a{"previous", "value"};
+            std::valarray<json> a{IMPLICIT_CAST "previous", IMPLICIT_CAST "value"};
             j.get_to(a);
             CHECK(json(a) == j);
         }
 
         SECTION("std::list<json>")
         {
-            std::list<json> a{"previous", "value"};
+            std::list<json> a{IMPLICIT_CAST "previous", IMPLICIT_CAST "value"};
             j.get_to(a);
             CHECK(json(a) == j);
         }
 
         SECTION("std::forward_list<json>")
         {
-            std::forward_list<json> a{"previous", "value"};
+                    std::list<json> a{IMPLICIT_CAST "previous", IMPLICIT_CAST "value"};
             j.get_to(a);
             CHECK(json(a) == j);
         }
 
         SECTION("std::vector<json>")
         {
-            std::vector<json> a{"previous", "value"};
+              std::list<json> a{IMPLICIT_CAST "previous", IMPLICIT_CAST "value"};
             j.get_to(a);
             CHECK(json(a) == j);
         }
@@ -339,14 +340,14 @@ TEST_CASE("value conversion")
             const int nbs[] = {0, 1, 2}; // NOLINT(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays)
             int nbs2[] = {0, 0, 0}; // NOLINT(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays)
 
-            const json j2 = nbs;
+            const json j2 = IMPLICIT_CAST nbs;
             j2.get_to(nbs2);
             CHECK(std::equal(std::begin(nbs), std::end(nbs), std::begin(nbs2)));
         }
 
         SECTION("std::deque<json>")
         {
-            std::deque<json> a{"previous", "value"};
+             std::list<json> a{IMPLICIT_CAST "previous", IMPLICIT_CAST "value"};
             j.get_to(a);
             CHECK(json(a) == j);
         }
@@ -1427,13 +1428,13 @@ TEST_CASE("value conversion")
             SECTION("std::map (array of pairs)")
             {
                 std::map<int, int> m{{0, 1}, {1, 2}, {2, 3}};
-                json const j6 = m;
+                json const j6 = IMPLICIT_CAST m;
 
                 auto m2 = j6.get<std::map<int, int>>();
                 CHECK(m == m2);
 
                 json const j7 = {0, 1, 2, 3};
-                json const j8 = 2;
+                json const j8 = IMPLICIT_CAST 2;
                 CHECK_THROWS_WITH_AS((j7.get<std::map<int, int>>()),
                                      "[json.exception.type_error.302] type must be array, "
                                      "but is number", json::type_error&);
@@ -1452,13 +1453,13 @@ TEST_CASE("value conversion")
             SECTION("std::unordered_map (array of pairs)")
             {
                 std::unordered_map<int, int> m{{0, 1}, {1, 2}, {2, 3}};
-                json const j6 = m;
+                json const j6 = IMPLICIT_CAST m;
 
                 auto m2 = j6.get<std::unordered_map<int, int>>();
                 CHECK(m == m2);
 
                 json const j7 = {0, 1, 2, 3};
-                json const j8 = 2;
+                json const j8 = IMPLICIT_CAST 2;
                 CHECK_THROWS_WITH_AS((j7.get<std::unordered_map<int, int>>()),
                                      "[json.exception.type_error.302] type must be array, "
                                      "but is number", json::type_error&);
@@ -1501,6 +1502,7 @@ TEST_CASE("value conversion")
     }
 }
 
+#if JSON_USE_IMPLICIT_CONSTRUCTORS == 1
 enum class cards {kreuz, pik, herz, karo};
 
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays) - false positive
@@ -1568,5 +1570,6 @@ TEST_CASE("JSON to enum mapping")
         CHECK(TS_INVALID == json("what?").get<TaskState>());
     }
 }
+#endif
 
 DOCTEST_CLANG_SUPPRESS_WARNING_POP

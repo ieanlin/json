@@ -14,6 +14,7 @@
 // JSON_HAS_CPP_<VERSION> (do not remove; see note at top of file)
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -245,8 +246,8 @@ TEST_CASE("iterators 2")
     {
         json j_object = {{"one", 1}, {"two", 2}, {"three", 3}};
         json j_array = {1, 2, 3, 4, 5, 6};
-        json j_null = nullptr;
-        json j_value = 42;
+        json j_null = IMPLICIT_CAST nullptr;
+        json j_value = IMPLICIT_CAST 42;
 
         SECTION("addition and subtraction")
         {
@@ -669,8 +670,8 @@ TEST_CASE("iterators 2")
     {
         json j_object = {{"one", 1}, {"two", 2}, {"three", 3}};
         json j_array = {1, 2, 3, 4, 5, 6};
-        json j_null = nullptr;
-        json j_value = 42;
+        json j_null = IMPLICIT_CAST nullptr;
+        json j_value = IMPLICIT_CAST 42;
 
         SECTION("addition and subtraction")
         {

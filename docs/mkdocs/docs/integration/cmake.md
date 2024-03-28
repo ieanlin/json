@@ -155,6 +155,10 @@ Place user-defined string literals in the global namespace by defining the macro
 
 Enable implicit conversions by defining macro [`JSON_USE_IMPLICIT_CONVERSIONS`](../api/macros/json_use_implicit_conversions.md). This option is `ON` by default.
 
+### `JSON_ImplicitConstructors`
+
+Enable implicit constructors by defining macro [`JSON_USE_IMPLICIT_CONSTRUCTORS`](../api/macros/json_use_implicit_constructors.md). This option is `ON` by default.
+
 ### `JSON_Install`
 
 Install CMake targets during install step. This option is `ON` by default if the library's CMake project is the top project.

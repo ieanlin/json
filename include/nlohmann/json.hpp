@@ -832,7 +832,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
                typename U = detail::uncvref_t<CompatibleType>,
                detail::enable_if_t <
                    !detail::is_basic_json<U>::value && detail::is_compatible_type<basic_json_t, U>::value, int > = 0 >
-    JSON_EXPLICIT basic_json(CompatibleType && val) noexcept(noexcept( // NOLINT(bugprone-forwarding-reference-overload,bugprone-exception-escape)
+    JSON_CONSTRUCT_EXPLICIT basic_json(CompatibleType && val) noexcept(noexcept( // NOLINT(bugprone-forwarding-reference-overload,bugprone-exception-escape)
                 JSONSerializer<U>::to_json(std::declval<basic_json_t&>(),
                                            std::forward<CompatibleType>(val))))
     {
@@ -1248,6 +1248,17 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
         assert_invariant();
         return *this;
     }
+
+    /// @brief copy assignment
+    /// @sa https://json.nlohmann.me/api/basic_json/operator=/
+template < typename CompatibleType,
+               typename U = detail::uncvref_t<CompatibleType>,
+               detail::enable_if_t <
+                   !detail::is_basic_json<U>::value && detail::is_compatible_type<basic_json_t, U>::value, int > = 0 >
+    basic_json& operator=(CompatibleType && val) {
+        return this->operator=(basic_json(std::forward<CompatibleType>(val)));
+    }
+
 
     /// @brief destructor
     /// @sa https://json.nlohmann.me/api/basic_json/~basic_json/

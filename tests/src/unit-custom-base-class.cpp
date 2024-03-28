@@ -12,6 +12,7 @@
 #include <string>
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #include <nlohmann/json.hpp>
 
@@ -252,13 +253,18 @@ TEST_CASE("JSON Visit Node")
 {
     json_with_visitor_t json;
     json["null"];
-    json["int"]  = -1;
-    json["uint"] = 1U;
-    json["float"] = 1.0;
-    json["boolean"] = true;
-    json["string"] = "string";
+    json["int"]  = IMPLICIT_CAST -1;
+    json["uint"] = IMPLICIT_CAST 1U;
+    json["float"] = IMPLICIT_CAST 1.0;
+    json["boolean"] = IMPLICIT_CAST true;
+    json["string"] = IMPLICIT_CAST "string";
+#if JSON_USE_IMPLICIT_CONSTRUCTORS == 1
     json["array"].push_back(0);
     json["array"].push_back(1);
+#else
+    json["array"].push_back(json_with_visitor_t(0));
+    json["array"].push_back(json_with_visitor_t(1));
+#endif
     json["array"].push_back(json);
 
     std::set<std::string> expected

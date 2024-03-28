@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -25,7 +26,7 @@ TEST_CASE("iterator_wrapper")
     {
         SECTION("value")
         {
-            json j = { {"A", 1}, {"B", 2} };
+            json j = IMPLICIT_CAST { {"A", 1}, {"B", 2} };
             int counter = 1;
 
             for (auto i : json::iterator_wrapper(j)) // NOLINT(performance-for-range-copy)
@@ -352,7 +353,7 @@ TEST_CASE("iterator_wrapper")
                         CHECK(i.value() == "A");
 
                         // change the value
-                        i.value() = "AA";
+                        i.value() = IMPLICIT_CAST "AA";
                         CHECK(i.value() == "AA");
                         break;
                     }
@@ -363,7 +364,7 @@ TEST_CASE("iterator_wrapper")
                         CHECK(i.value() == "B");
 
                         // change the value
-                        i.value() = "BB";
+                        i.value() = IMPLICIT_CAST "BB";
                         CHECK(i.value() == "BB");
                         break;
                     }
@@ -587,7 +588,7 @@ TEST_CASE("iterator_wrapper")
     {
         SECTION("value")
         {
-            json j = 1;
+            json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (auto i : json::iterator_wrapper(j)) // NOLINT(performance-for-range-copy)
@@ -602,7 +603,7 @@ TEST_CASE("iterator_wrapper")
 
         SECTION("reference")
         {
-            json j = 1;
+            json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (auto& i : json::iterator_wrapper(j)) // NOLINT(readability-qualified-auto)
@@ -623,7 +624,7 @@ TEST_CASE("iterator_wrapper")
 
         SECTION("const value")
         {
-            json j = 1;
+            json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (const auto i : json::iterator_wrapper(j)) // NOLINT(performance-for-range-copy)
@@ -638,7 +639,7 @@ TEST_CASE("iterator_wrapper")
 
         SECTION("const reference")
         {
-            json j = 1;
+            json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (const auto& i : json::iterator_wrapper(j))
@@ -656,7 +657,7 @@ TEST_CASE("iterator_wrapper")
     {
         SECTION("value")
         {
-            const json j = 1;
+            const json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (auto i : json::iterator_wrapper(j)) // NOLINT(performance-for-range-copy)
@@ -671,7 +672,7 @@ TEST_CASE("iterator_wrapper")
 
         SECTION("reference")
         {
-            const json j = 1;
+            const json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (auto& i : json::iterator_wrapper(j)) // NOLINT(readability-qualified-auto)
@@ -686,7 +687,7 @@ TEST_CASE("iterator_wrapper")
 
         SECTION("const value")
         {
-            const json j = 1;
+            const json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (const auto i : json::iterator_wrapper(j)) // NOLINT(performance-for-range-copy)
@@ -701,7 +702,7 @@ TEST_CASE("iterator_wrapper")
 
         SECTION("const reference")
         {
-            const json j = 1;
+            const json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (const auto& i : json::iterator_wrapper(j))
@@ -1065,7 +1066,7 @@ TEST_CASE("items()")
                         CHECK(i.value() == "A");
 
                         // change the value
-                        i.value() = "AA";
+                        i.value() = IMPLICIT_CAST "AA";
                         CHECK(i.value() == "AA");
                         break;
                     }
@@ -1076,7 +1077,7 @@ TEST_CASE("items()")
                         CHECK(i.value() == "B");
 
                         // change the value
-                        i.value() = "BB";
+                        i.value() = IMPLICIT_CAST "BB";
                         CHECK(i.value() == "BB");
                         break;
                     }
@@ -1300,7 +1301,7 @@ TEST_CASE("items()")
     {
         SECTION("value")
         {
-            json j = 1;
+            json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (auto i : j.items()) // NOLINT(performance-for-range-copy)
@@ -1315,7 +1316,7 @@ TEST_CASE("items()")
 
         SECTION("reference")
         {
-            json j = 1;
+            json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (auto& i : j.items()) // NOLINT(readability-qualified-auto)
@@ -1336,7 +1337,7 @@ TEST_CASE("items()")
 
         SECTION("const value")
         {
-            json j = 1;
+            json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (const auto i : j.items()) // NOLINT(performance-for-range-copy)
@@ -1351,7 +1352,7 @@ TEST_CASE("items()")
 
         SECTION("const reference")
         {
-            json j = 1;
+            json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (const auto& i : j.items())
@@ -1369,7 +1370,7 @@ TEST_CASE("items()")
     {
         SECTION("value")
         {
-            const json j = 1;
+            const json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (auto i : j.items()) // NOLINT(performance-for-range-copy)
@@ -1384,7 +1385,7 @@ TEST_CASE("items()")
 
         SECTION("reference")
         {
-            const json j = 1;
+            const json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (auto& i : j.items()) // NOLINT(readability-qualified-auto)
@@ -1399,7 +1400,7 @@ TEST_CASE("items()")
 
         SECTION("const value")
         {
-            const json j = 1;
+            const json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (const auto i : j.items()) // NOLINT(performance-for-range-copy)
@@ -1414,7 +1415,7 @@ TEST_CASE("items()")
 
         SECTION("const reference")
         {
-            const json j = 1;
+            const json j = IMPLICIT_CAST 1;
             int counter = 1;
 
             for (const auto& i : j.items())

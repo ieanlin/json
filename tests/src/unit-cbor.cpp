@@ -113,7 +113,7 @@ TEST_CASE("CBOR")
         SECTION("NaN")
         {
             // NaN value
-            json const j = std::numeric_limits<json::number_float_t>::quiet_NaN();
+            json const j = IMPLICIT_CAST std::numeric_limits<json::number_float_t>::quiet_NaN();
             const std::vector<uint8_t> expected = {0xf9, 0x7e, 0x00};
             const auto result = json::to_cbor(j);
             CHECK(result == expected);
@@ -122,7 +122,7 @@ TEST_CASE("CBOR")
         SECTION("Infinity")
         {
             // Infinity value
-            json const j = std::numeric_limits<json::number_float_t>::infinity();
+            json const j = IMPLICIT_CAST std::numeric_limits<json::number_float_t>::infinity();
             const std::vector<uint8_t> expected = {0xf9, 0x7c, 0x00};
             const auto result = json::to_cbor(j);
             CHECK(result == expected);
@@ -130,7 +130,7 @@ TEST_CASE("CBOR")
 
         SECTION("null")
         {
-            const json j = nullptr;
+            const json j = IMPLICIT_CAST nullptr;
             const std::vector<uint8_t> expected = {0xf6};
             const auto result = json::to_cbor(j);
             CHECK(result == expected);
@@ -144,7 +144,7 @@ TEST_CASE("CBOR")
         {
             SECTION("true")
             {
-                const json j = true;
+                const json j = IMPLICIT_CAST true;
                 const std::vector<uint8_t> expected = {0xf5};
                 const auto result = json::to_cbor(j);
                 CHECK(result == expected);
@@ -156,7 +156,7 @@ TEST_CASE("CBOR")
 
             SECTION("false")
             {
-                const json j = false;
+                const json j = IMPLICIT_CAST false;
                 const std::vector<uint8_t> expected = {0xf4};
                 const auto result = json::to_cbor(j);
                 CHECK(result == expected);
@@ -192,7 +192,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        const json j = i;
+                        const json j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_integer());
@@ -253,7 +253,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        const json j = i;
+                        const json j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_integer());
@@ -296,7 +296,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        const json j = i;
+                        const json j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_integer());
@@ -329,7 +329,7 @@ TEST_CASE("CBOR")
 
                 SECTION("-9263 (int 16)")
                 {
-                    const json j = -9263;
+                    const json j = IMPLICIT_CAST -9263;
                     std::vector<uint8_t> expected = {0x39, 0x24, 0x2e};
 
                     const auto result = json::to_cbor(j);
@@ -350,7 +350,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        const json j = i;
+                        const json j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_integer());
@@ -384,7 +384,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        const json j = i;
+                        const json j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_integer());
@@ -416,7 +416,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json j = -1;
+                        json j = IMPLICIT_CAST -1;
                         j.get_ref<json::number_integer_t&>() = static_cast<json::number_integer_t>(i);
 
                         // check type
@@ -449,7 +449,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json j = -1;
+                        json j = IMPLICIT_CAST -1;
                         j.get_ref<json::number_integer_t&>() = static_cast<json::number_integer_t>(i);
 
                         // check type
@@ -484,7 +484,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json j = -1;
+                        json j = IMPLICIT_CAST -1;
                         j.get_ref<json::number_integer_t&>() = static_cast<json::number_integer_t>(i);
 
                         // check type
@@ -524,7 +524,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json j = -1;
+                        json j = IMPLICIT_CAST -1;
                         j.get_ref<json::number_integer_t&>() = static_cast<json::number_integer_t>(i);
 
                         // check type
@@ -569,7 +569,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json j = -1;
+                        json j = IMPLICIT_CAST -1;
                         j.get_ref<json::number_integer_t&>() = static_cast<json::number_integer_t>(i);
 
                         // check type
@@ -619,7 +619,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        const json j = i;
+                        const json j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_integer());
@@ -657,7 +657,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with unsigned integer number
-                        const json j = i;
+                        const json j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_unsigned());
@@ -689,7 +689,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with unsigned integer number
-                        const json j = i;
+                        const json j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_unsigned());
@@ -724,7 +724,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with unsigned integer number
-                        const json j = i;
+                        const json j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_unsigned());
@@ -763,7 +763,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with unsigned integer number
-                        const json j = i;
+                        const json j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_unsigned());
@@ -807,7 +807,7 @@ TEST_CASE("CBOR")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        const json j = i;
+                        const json j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_unsigned());
@@ -855,7 +855,7 @@ TEST_CASE("CBOR")
                 SECTION("3.1415925")
                 {
                     double v = 3.1415925;
-                    const json j = v;
+                    const json j = IMPLICIT_CAST v;
                     std::vector<uint8_t> expected =
                     {
                         0xfb, 0x40, 0x09, 0x21, 0xfb, 0x3f, 0xa6, 0xde, 0xfc
@@ -876,7 +876,7 @@ TEST_CASE("CBOR")
                 SECTION("0.5")
                 {
                     double v = 0.5;
-                    const json j = v;
+                    const json j = IMPLICIT_CAST v;
                     // its double-precision float binary value is
                     // {0xfb, 0x3f, 0xe0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
                     // but to save memory, we can store it as single-precision float.
@@ -890,7 +890,7 @@ TEST_CASE("CBOR")
                 SECTION("0.0")
                 {
                     double v = 0.0;
-                    const json j = v;
+                    const json j = IMPLICIT_CAST v;
                     // its double-precision binary value is:
                     // {0xfb, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
                     const std::vector<uint8_t> expected = {0xfa, 0x00, 0x00, 0x00, 0x00};
@@ -903,7 +903,7 @@ TEST_CASE("CBOR")
                 SECTION("-0.0")
                 {
                     double v = -0.0;
-                    const json j = v;
+                    const json j = IMPLICIT_CAST v;
                     // its double-precision binary value is:
                     // {0xfb, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
                     const std::vector<uint8_t> expected = {0xfa, 0x80, 0x00, 0x00, 0x00};
@@ -916,7 +916,7 @@ TEST_CASE("CBOR")
                 SECTION("100.0")
                 {
                     double v = 100.0;
-                    const json j = v;
+                    const json j = IMPLICIT_CAST v;
                     // its double-precision binary value is:
                     // {0xfb, 0x40, 0x59, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
                     const std::vector<uint8_t> expected = {0xfa, 0x42, 0xc8, 0x00, 0x00};
@@ -929,7 +929,7 @@ TEST_CASE("CBOR")
                 SECTION("200.0")
                 {
                     double v = 200.0;
-                    const json j = v;
+                    const json j = IMPLICIT_CAST v;
                     // its double-precision binary value is:
                     // {0xfb, 0x40, 0x69, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
                     const std::vector<uint8_t> expected = {0xfa, 0x43, 0x48, 0x00, 0x00};
@@ -942,7 +942,7 @@ TEST_CASE("CBOR")
                 SECTION("3.40282e+38(max float)")
                 {
                     float v = (std::numeric_limits<float>::max)();
-                    const json j = v;
+                    const json j = IMPLICIT_CAST v;
                     const std::vector<uint8_t> expected =
                     {
                         0xfa, 0x7f, 0x7f, 0xff, 0xff
@@ -956,7 +956,7 @@ TEST_CASE("CBOR")
                 SECTION("-3.40282e+38(lowest float)")
                 {
                     auto v = static_cast<double>(std::numeric_limits<float>::lowest());
-                    const json j = v;
+                    const json j = IMPLICIT_CAST v;
                     const std::vector<uint8_t> expected =
                     {
                         0xfa, 0xff, 0x7f, 0xff, 0xff
@@ -970,7 +970,7 @@ TEST_CASE("CBOR")
                 SECTION("1 + 3.40282e+38(more than max float)")
                 {
                     double v = static_cast<double>((std::numeric_limits<float>::max)()) + 0.1e+34;
-                    const json j = v;
+                    const json j = IMPLICIT_CAST v;
                     const std::vector<uint8_t> expected =
                     {
                         0xfb, 0x47, 0xf0, 0x00, 0x03, 0x04, 0xdc, 0x64, 0x49
@@ -985,7 +985,7 @@ TEST_CASE("CBOR")
                 SECTION("-1 - 3.40282e+38(less than lowest float)")
                 {
                     double v = static_cast<double>(std::numeric_limits<float>::lowest()) - 1.0;
-                    const json j = v;
+                    const json j = IMPLICIT_CAST v;
                     const std::vector<uint8_t> expected =
                     {
                         0xfa, 0xff, 0x7f, 0xff, 0xff
@@ -1113,7 +1113,7 @@ TEST_CASE("CBOR")
 
                     // create JSON value with string containing of N * 'x'
                     const auto s = std::string(N, 'x');
-                    const json j = s;
+                    const json j = IMPLICIT_CAST s;
 
                     // create expected byte vector
                     std::vector<uint8_t> expected;
@@ -1147,7 +1147,7 @@ TEST_CASE("CBOR")
 
                     // create JSON value with string containing of N * 'x'
                     const auto s = std::string(N, 'x');
-                    const json j = s;
+                    const json j = IMPLICIT_CAST s;
 
                     // create expected byte vector
                     std::vector<uint8_t> expected;
@@ -1183,7 +1183,7 @@ TEST_CASE("CBOR")
 
                     // create JSON value with string containing of N * 'x'
                     const auto s = std::string(N, 'x');
-                    const json j = s;
+                    const json j = IMPLICIT_CAST s;
 
                     // create expected byte vector (hack: create string first)
                     std::vector<uint8_t> expected(N, 'x');
@@ -1216,7 +1216,7 @@ TEST_CASE("CBOR")
 
                     // create JSON value with string containing of N * 'x'
                     const auto s = std::string(N, 'x');
-                    const json j = s;
+                    const json j = IMPLICIT_CAST s;
 
                     // create expected byte vector (hack: create string first)
                     std::vector<uint8_t> expected(N, 'x');
@@ -2498,7 +2498,7 @@ TEST_CASE("examples from RFC 7049 Appendix A")
 
 TEST_CASE("Tagged values")
 {
-    const json j = "s";
+    const json j = IMPLICIT_CAST "s";
     auto v = json::to_cbor(j);
 
     SECTION("0xC6..0xD4")

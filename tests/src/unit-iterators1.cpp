@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #define JSON_TESTS_PRIVATE
 #include <nlohmann/json.hpp>
@@ -27,7 +28,7 @@ TEST_CASE("iterators 1")
 
         SECTION("boolean")
         {
-            json j = true;
+            json j = IMPLICIT_CAST true;
             json j_const(j);
 
             SECTION("json + begin/end")
@@ -333,7 +334,7 @@ TEST_CASE("iterators 1")
 
         SECTION("string")
         {
-            json j = "hello world";
+            json j = IMPLICIT_CAST "hello world";
             json j_const(j);
 
             SECTION("json + begin/end")
@@ -899,7 +900,7 @@ TEST_CASE("iterators 1")
 
         SECTION("number (integer)")
         {
-            json j = 23;
+            json j = IMPLICIT_CAST 23;
             json j_const(j);
 
             SECTION("json + begin/end")
@@ -1097,7 +1098,7 @@ TEST_CASE("iterators 1")
 
         SECTION("number (unsigned)")
         {
-            json j = 23u;
+            json j = IMPLICIT_CAST 23u;
             json j_const(j);
 
             SECTION("json + begin/end")
@@ -1295,7 +1296,7 @@ TEST_CASE("iterators 1")
 
         SECTION("number (float)")
         {
-            json j = 23.42;
+            json j = IMPLICIT_CAST 23.42;
             json j_const(j);
 
             SECTION("json + begin/end")
@@ -1493,7 +1494,7 @@ TEST_CASE("iterators 1")
 
         SECTION("null")
         {
-            json j = nullptr;
+            json j = IMPLICIT_CAST nullptr;
             json j_const(j);
 
             SECTION("json + begin/end")
@@ -1564,7 +1565,7 @@ TEST_CASE("iterators 1")
     {
         SECTION("boolean")
         {
-            json j = true;
+            json j = IMPLICIT_CAST true;
             json::const_iterator it = j.begin();
             CHECK(it == j.cbegin());
             it = j.begin();
@@ -1572,7 +1573,7 @@ TEST_CASE("iterators 1")
         }
         SECTION("string")
         {
-            json j = "hello world";
+            json j = IMPLICIT_CAST "hello world";
             json::const_iterator it = j.begin();
             CHECK(it == j.cbegin());
             it = j.begin();
@@ -1596,7 +1597,7 @@ TEST_CASE("iterators 1")
         }
         SECTION("number (integer)")
         {
-            json j = 23;
+            json j = IMPLICIT_CAST 23;
             json::const_iterator it = j.begin();
             CHECK(it == j.cbegin());
             it = j.begin();
@@ -1604,7 +1605,7 @@ TEST_CASE("iterators 1")
         }
         SECTION("number (unsigned)")
         {
-            json j = 23u;
+            json j = IMPLICIT_CAST 23u;
             json::const_iterator it = j.begin();
             CHECK(it == j.cbegin());
             it = j.begin();
@@ -1612,7 +1613,7 @@ TEST_CASE("iterators 1")
         }
         SECTION("number (float)")
         {
-            json j = 23.42;
+            json j = IMPLICIT_CAST 23.42;
             json::const_iterator it = j.begin();
             CHECK(it == j.cbegin());
             it = j.begin();
@@ -1620,7 +1621,7 @@ TEST_CASE("iterators 1")
         }
         SECTION("null")
         {
-            json j = nullptr;
+            json j = IMPLICIT_CAST nullptr;
             json::const_iterator it = j.begin();
             CHECK(it == j.cbegin());
             it = j.begin();

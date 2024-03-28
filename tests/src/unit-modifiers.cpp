@@ -8,6 +8,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -18,7 +19,7 @@ TEST_CASE("modifiers")
     {
         SECTION("boolean")
         {
-            json j = true;
+            json j = IMPLICIT_CAST true;
             json const k = j;
 
             j.clear();
@@ -28,7 +29,7 @@ TEST_CASE("modifiers")
 
         SECTION("string")
         {
-            json j = "hello world";
+            json j = IMPLICIT_CAST "hello world";
             json const k = j;
 
             j.clear();
@@ -113,7 +114,7 @@ TEST_CASE("modifiers")
 
         SECTION("number (integer)")
         {
-            json j = 23;
+            json j = IMPLICIT_CAST 23;
             json const k = j;
 
             j.clear();
@@ -123,7 +124,7 @@ TEST_CASE("modifiers")
 
         SECTION("number (unsigned)")
         {
-            json j = 23u;
+            json j = IMPLICIT_CAST 23u;
             json const k = j;
 
             j.clear();
@@ -133,7 +134,7 @@ TEST_CASE("modifiers")
 
         SECTION("number (float)")
         {
-            json j = 23.42;
+            json j = IMPLICIT_CAST 23.42;
             json const k = j;
 
             j.clear();
@@ -143,7 +144,7 @@ TEST_CASE("modifiers")
 
         SECTION("null")
         {
-            json j = nullptr;
+            json j = IMPLICIT_CAST nullptr;
             json const k = j;
 
             j.clear();
@@ -177,7 +178,7 @@ TEST_CASE("modifiers")
 
                 SECTION("other type")
                 {
-                    json j = 1;
+                    json j = IMPLICIT_CAST 1;
                     CHECK_THROWS_WITH_AS(j.push_back("Hello"), "[json.exception.type_error.308] cannot use push_back() with number", json::type_error&);
                 }
             }
@@ -205,7 +206,7 @@ TEST_CASE("modifiers")
 
                 SECTION("other type")
                 {
-                    json j = 1;
+                    json j = IMPLICIT_CAST 1;
                     json const k("Hello");
                     CHECK_THROWS_WITH_AS(j.push_back(k), "[json.exception.type_error.308] cannot use push_back() with number", json::type_error&);
                 }
@@ -237,7 +238,7 @@ TEST_CASE("modifiers")
 
             SECTION("other type")
             {
-                json j = 1;
+                json j = IMPLICIT_CAST 1;
                 json const k("Hello");
                 CHECK_THROWS_WITH_AS(j.push_back(json::object_t::value_type({"one", 1})), "[json.exception.type_error.308] cannot use push_back() with number", json::type_error&);
             }
@@ -317,7 +318,7 @@ TEST_CASE("modifiers")
 
         SECTION("other type")
         {
-            json j = 1;
+            json j = IMPLICIT_CAST 1;
             CHECK_THROWS_WITH_AS(j.emplace_back("Hello"), "[json.exception.type_error.311] cannot use emplace_back() with number", json::type_error&);
         }
     }
@@ -375,7 +376,7 @@ TEST_CASE("modifiers")
 
         SECTION("other type")
         {
-            json j = 1;
+            json j = IMPLICIT_CAST 1;
             CHECK_THROWS_WITH_AS(j.emplace("foo", "bar"), "[json.exception.type_error.311] cannot use emplace() with number", json::type_error&);
         }
     }
@@ -405,7 +406,7 @@ TEST_CASE("modifiers")
 
                 SECTION("other type")
                 {
-                    json j = 1;
+                    json j = IMPLICIT_CAST 1;
                     CHECK_THROWS_WITH_AS(j += "Hello", "[json.exception.type_error.308] cannot use push_back() with number", json::type_error&);
                 }
             }
@@ -433,7 +434,7 @@ TEST_CASE("modifiers")
 
                 SECTION("other type")
                 {
-                    json j = 1;
+                    json j = IMPLICIT_CAST 1;
                     json const k("Hello");
                     CHECK_THROWS_WITH_AS(j += k, "[json.exception.type_error.308] cannot use push_back() with number", json::type_error&);
                 }
@@ -465,7 +466,7 @@ TEST_CASE("modifiers")
 
             SECTION("other type")
             {
-                json j = 1;
+                json j = IMPLICIT_CAST 1;
                 json const k("Hello");
                 CHECK_THROWS_WITH_AS(j += json::object_t::value_type({"one", 1}), "[json.exception.type_error.308] cannot use push_back() with number", json::type_error&);
             }
@@ -852,7 +853,7 @@ TEST_CASE("modifiers")
 
             SECTION("non-array_t type")
             {
-                json j = 17;
+                json j = IMPLICIT_CAST 17;
                 json::array_t a = {"foo", "bar", "baz"};
 
                 CHECK_THROWS_WITH_AS(j.swap(a), "[json.exception.type_error.310] cannot use swap(array_t&) with number", json::type_error&);
@@ -877,7 +878,7 @@ TEST_CASE("modifiers")
 
             SECTION("non-object_t type")
             {
-                json j = 17;
+                json j = IMPLICIT_CAST 17;
                 json::object_t o = {{"cow", "Kuh"}, {"chicken", "Huhn"}};
 
                 CHECK_THROWS_WITH_AS(j.swap(o), "[json.exception.type_error.310] cannot use swap(object_t&) with number", json::type_error&);
@@ -888,7 +889,7 @@ TEST_CASE("modifiers")
         {
             SECTION("string_t type")
             {
-                json j = "Hello world";
+                json j = IMPLICIT_CAST "Hello world";
                 json::string_t s = "Hallo Welt";
 
                 j.swap(s);
@@ -902,7 +903,7 @@ TEST_CASE("modifiers")
 
             SECTION("non-string_t type")
             {
-                json j = 17;
+                json j = IMPLICIT_CAST 17;
                 json::string_t s = "Hallo Welt";
 
                 CHECK_THROWS_WITH_AS(j.swap(s), "[json.exception.type_error.310] cannot use swap(string_t&) with number", json::type_error&);
@@ -941,7 +942,7 @@ TEST_CASE("modifiers")
 
             SECTION("non-binary_t type")
             {
-                json j = 17;
+                json j = IMPLICIT_CAST 17;
                 json::binary_t s1 = {{1, 2, 3, 4}};
                 std::vector<std::uint8_t> s2 = {{5, 6, 7, 8}};
 

@@ -8,6 +8,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #include <nlohmann/json.hpp>
 #ifdef JSON_TEST_NO_GLOBAL_UDLS
@@ -460,10 +461,10 @@ TEST_CASE_TEMPLATE("element access 2", Json, nlohmann::json, nlohmann::ordered_j
             {
                 Json j_null;
                 CHECK(j_null.is_null());
-                j_null["key"] = 1;
+                j_null["key"] = IMPLICIT_CAST 1;
                 CHECK(j_null.is_object());
                 CHECK(j_null.size() == 1);
-                j_null["key"] = 2;
+                j_null["key"] = IMPLICIT_CAST 2;
                 CHECK(j_null.size() == 1);
             }
 #ifdef JSON_HAS_CPP_17
@@ -471,10 +472,10 @@ TEST_CASE_TEMPLATE("element access 2", Json, nlohmann::json, nlohmann::ordered_j
                 std::string_view const key = "key";
                 Json j_null;
                 CHECK(j_null.is_null());
-                j_null[key] = 1;
+                j_null[key] = IMPLICIT_CAST 1;
                 CHECK(j_null.is_object());
                 CHECK(j_null.size() == 1);
-                j_null[key] = 2;
+                j_null[key] = IMPLICIT_CAST 2;
                 CHECK(j_null.size() == 1);
             }
 #endif

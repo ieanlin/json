@@ -8,6 +8,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #ifdef JSON_DIAGNOSTICS
     #undef JSON_DIAGNOSTICS
@@ -22,7 +23,7 @@ TEST_CASE("Better diagnostics")
 {
     SECTION("empty JSON Pointer")
     {
-        json const j = 1;
+        json const j = IMPLICIT_CAST 1;
         std::string s;
         CHECK_THROWS_WITH_AS(s = j.get<std::string>(), "[json.exception.type_error.302] type must be string, but is number", json::type_error);
     }
@@ -30,7 +31,7 @@ TEST_CASE("Better diagnostics")
     SECTION("invalid type")
     {
         json j;
-        j["a"]["b"]["c"] = 1;
+        j["a"]["b"]["c"] = IMPLICIT_CAST 1;
         std::string s;
         CHECK_THROWS_WITH_AS(s = j["a"]["b"]["c"].get<std::string>(), "[json.exception.type_error.302] (/a/b/c) type must be string, but is number", json::type_error);
     }
@@ -38,21 +39,21 @@ TEST_CASE("Better diagnostics")
     SECTION("missing key")
     {
         json j;
-        j["object"]["object"] = true;
+        j["object"]["object"] = IMPLICIT_CAST true;
         CHECK_THROWS_WITH_AS(j["object"].at("not_found"), "[json.exception.out_of_range.403] (/object) key 'not_found' not found", json::out_of_range);
     }
 
     SECTION("array index out of range")
     {
         json j;
-        j["array"][4] = true;
+        j["array"][4] = IMPLICIT_CAST true;
         CHECK_THROWS_WITH_AS(j["array"].at(5), "[json.exception.out_of_range.401] (/array) array index 5 is out of range", json::out_of_range);
     }
 
     SECTION("array index at wrong type")
     {
         json j;
-        j["array"][4] = true;
+        j["array"][4] = IMPLICIT_CAST true;
         CHECK_THROWS_WITH_AS(j["array"][4][5], "[json.exception.type_error.305] (/array/4) cannot use operator[] with a numeric argument with boolean", json::type_error);
     }
 
@@ -66,7 +67,7 @@ TEST_CASE("Better diagnostics")
     SECTION("JSON Pointer escaping")
     {
         json j;
-        j["a/b"]["m~n"] = 1;
+        j["a/b"]["m~n"] = IMPLICIT_CAST 1;
         std::string s;
         CHECK_THROWS_WITH_AS(s = j["a/b"]["m~n"].get<std::string>(), "[json.exception.type_error.302] (/a~1b/m~0n) type must be string, but is number", json::type_error);
     }
@@ -172,8 +173,8 @@ TEST_CASE("Regression tests for extended diagnostics")
         nlohmann::ordered_json j;
         nlohmann::ordered_json j2;
         const std::string value;
-        j["first"] = value;
-        j["second"] = value;
+        j["first"] = IMPLICIT_CAST value;
+        j["second"] = IMPLICIT_CAST value;
         j2["something"] = j;
     }
 
@@ -185,7 +186,7 @@ TEST_CASE("Regression tests for extended diagnostics")
 
             {
                 json j2 = json::object();
-                j2["one"] = 1;
+                j2["one"] = IMPLICIT_CAST 1;
 
                 j.update(j2);
             }
@@ -201,7 +202,7 @@ TEST_CASE("Regression tests for extended diagnostics")
 
             {
                 json j2 = json::object();
-                j2["one"] = 1;
+                j2["one"] = IMPLICIT_CAST 1;
 
                 j.update(j2.begin(), j2.end());
             }
@@ -218,7 +219,7 @@ TEST_CASE("Regression tests for extended diagnostics")
 
             {
                 json lowest = json::object();
-                lowest["one"] = 1;
+                lowest["one"] = IMPLICIT_CAST 1;
 
                 lower.update(lowest);
             }
@@ -232,14 +233,14 @@ TEST_CASE("Regression tests for extended diagnostics")
         // reference operator[](size_type idx)
         {
             json j_arr = json::array();
-            j_arr[0] = 0;
-            j_arr[1] = 1;
-            j_arr[2] = 2;
-            j_arr[3] = 3;
-            j_arr[4] = 4;
-            j_arr[5] = 5;
-            j_arr[6] = 6;
-            j_arr[7] = 7;
+            j_arr[0] = IMPLICIT_CAST 0;
+            j_arr[1] = IMPLICIT_CAST 1;
+            j_arr[2] = IMPLICIT_CAST 2;
+            j_arr[3] = IMPLICIT_CAST 3;
+            j_arr[4] = IMPLICIT_CAST 4;
+            j_arr[5] = IMPLICIT_CAST 5;
+            j_arr[6] = IMPLICIT_CAST 6;
+            j_arr[7] = IMPLICIT_CAST 7;
             json const j_arr_copy = j_arr;
         }
     }

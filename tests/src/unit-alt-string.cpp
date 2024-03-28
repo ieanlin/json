@@ -8,6 +8,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #include <nlohmann/json.hpp>
 
@@ -190,35 +191,35 @@ TEST_CASE("alternative string type")
     {
         {
             alt_json doc;
-            doc["pi"] = 3.141;
+            doc["pi"] = IMPLICIT_CAST 3.141;
             alt_string dump = doc.dump();
             CHECK(dump == R"({"pi":3.141})");
         }
 
         {
             alt_json doc;
-            doc["happy"] = true;
+            doc["happy"] = IMPLICIT_CAST true;
             alt_string dump = doc.dump();
             CHECK(dump == R"({"happy":true})");
         }
 
         {
             alt_json doc;
-            doc["name"] = "I'm Batman";
+            doc["name"] = IMPLICIT_CAST "I'm Batman";
             alt_string dump = doc.dump();
             CHECK(dump == R"({"name":"I'm Batman"})");
         }
 
         {
             alt_json doc;
-            doc["nothing"] = nullptr;
+            doc["nothing"] = IMPLICIT_CAST nullptr;
             alt_string dump = doc.dump();
             CHECK(dump == R"({"nothing":null})");
         }
 
         {
             alt_json doc;
-            doc["answer"]["everything"] = 42;
+            doc["answer"]["everything"] = IMPLICIT_CAST 42;
             alt_string dump = doc.dump();
             CHECK(dump == R"({"answer":{"everything":42}})");
         }
@@ -277,7 +278,7 @@ TEST_CASE("alternative string type")
     SECTION("equality")
     {
         alt_json doc;
-        doc["Who are you?"] = "I'm Batman";
+        doc["Who are you?"] = IMPLICIT_CAST "I'm Batman";
 
         CHECK("I'm Batman" == doc["Who are you?"]);
         CHECK(doc["Who are you?"]  == "I'm Batman");

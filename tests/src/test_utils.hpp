@@ -12,6 +12,14 @@
 #include <fstream> // ifstream, istreambuf_iterator, ios
 #include <vector> // vector
 
+#if JSON_USE_IMPLICIT_CONSTRUCTORS == 0
+    #define IMPLICIT_CAST (nlohmann::json)
+    #define IMPLICIT_REF_CAST(x) std::move(nlohmann::json(x))
+#else
+    #define IMPLICIT_CAST
+    #define IMPLICIT_REF_CAST
+#endif
+
 namespace utils
 {
 

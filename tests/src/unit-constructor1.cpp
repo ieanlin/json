@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #define JSON_TESTS_PRIVATE
 #include <nlohmann/json.hpp>
@@ -243,8 +244,8 @@ TEST_CASE("constructors")
             CHECK(j.type() == json::value_t::array);
             CHECK(j.get<decltype(p)>() == p);
             REQUIRE(j.size() == 2);
-            CHECK(j[0] == std::get<0>(p));
-            CHECK(j[1] == std::get<1>(p));
+            CHECK(j[0] == IMPLICIT_CAST std::get<0>(p));
+            CHECK(j[1] == IMPLICIT_CAST std::get<1>(p));
         }
 
         SECTION("std::pair with discarded values")
@@ -264,11 +265,11 @@ TEST_CASE("constructors")
             CHECK(j.type() == json::value_t::array);
             REQUIRE(j.size() == 4);
             CHECK(j.get<decltype(t)>() == t);
-            CHECK(j[0] == std::get<0>(t));
-            CHECK(j[1] == std::get<1>(t));
-            CHECK(j[2] == std::get<2>(t));
-            CHECK(j[3][0] == 0);
-            CHECK(j[3][1] == 1);
+            CHECK(j[0] == IMPLICIT_CAST std::get<0>(t));
+            CHECK(j[1] == IMPLICIT_CAST std::get<1>(t));
+            CHECK(j[2] == IMPLICIT_CAST std::get<2>(t));
+            CHECK(j[3][0] == IMPLICIT_CAST 0);
+            CHECK(j[3][1] == IMPLICIT_CAST 1);
         }
 
         SECTION("std::tuple with discarded values")
@@ -276,8 +277,8 @@ TEST_CASE("constructors")
             json const j{1, 2.0, "string", 42};
 
             const auto t = j.get<std::tuple<int, float, std::string>>();
-            CHECK(std::get<0>(t) == j[0]);
-            CHECK(std::get<1>(t) == j[1]);
+            CHECK(IMPLICIT_CAST std::get<0>(t) == j[0]);
+            CHECK(IMPLICIT_CAST std::get<1>(t) == j[1]);
             // CHECK(std::get<2>(t) == j[2]); // commented out due to CI issue, see https://github.com/nlohmann/json/pull/3985 and https://github.com/nlohmann/json/issues/4025
         }
 
@@ -1142,7 +1143,7 @@ TEST_CASE("constructors")
             {
                 SECTION("constructor with implicit types (array)")
                 {
-                    json::array_t source = {1, 2, 3};
+                    json::array_t source = IMPLICIT_CAST {1, 2, 3};
                     const auto* source_addr = source.data();
                     json j {std::move(source)};
                     const auto* target_addr = j[0].get_ref<json::array_t const&>().data();
@@ -1152,7 +1153,7 @@ TEST_CASE("constructors")
 
                 SECTION("constructor with implicit types (object)")
                 {
-                    json::array_t source = {1, 2, 3};
+                    json::array_t source = IMPLICIT_CAST {1, 2, 3};
                     const auto* source_addr = source.data();
                     json const j {{"key", std::move(source)}};
                     const auto* target_addr = j["key"].get_ref<json::array_t const&>().data();
@@ -1162,7 +1163,7 @@ TEST_CASE("constructors")
 
                 SECTION("assignment with implicit types (array)")
                 {
-                    json::array_t source = {1, 2, 3};
+                    json::array_t source = IMPLICIT_CAST {1, 2, 3};
                     const auto* source_addr = source.data();
                     json j = {std::move(source)};
                     const auto* target_addr = j[0].get_ref<json::array_t const&>().data();
@@ -1172,7 +1173,7 @@ TEST_CASE("constructors")
 
                 SECTION("assignment with implicit types (object)")
                 {
-                    json::array_t source = {1, 2, 3};
+                    json::array_t source = IMPLICIT_CAST {1, 2, 3};
                     const auto* source_addr = source.data();
                     json j = {{"key", std::move(source)}};
                     const auto* target_addr = j["key"].get_ref<json::array_t const&>().data();
@@ -1185,7 +1186,7 @@ TEST_CASE("constructors")
             {
                 SECTION("constructor with implicit types (array)")
                 {
-                    json::object_t source = {{"hello", "world"}};
+                    json::object_t source = IMPLICIT_CAST {{"hello", "world"}};
                     const json* source_addr = &source.at("hello");
                     json j {std::move(source)};
                     CHECK(&(j[0].get_ref<json::object_t const&>().at("hello")) == source_addr);
@@ -1193,7 +1194,7 @@ TEST_CASE("constructors")
 
                 SECTION("constructor with implicit types (object)")
                 {
-                    json::object_t source = {{"hello", "world"}};
+                    json::object_t source = IMPLICIT_CAST {{"hello", "world"}};
                     const json* source_addr = &source.at("hello");
                     json j {{"key", std::move(source)}};
                     CHECK(&(j["key"].get_ref<json::object_t const&>().at("hello")) == source_addr);
@@ -1201,7 +1202,7 @@ TEST_CASE("constructors")
 
                 SECTION("assignment with implicit types (array)")
                 {
-                    json::object_t source = {{"hello", "world"}};
+                    json::object_t source = IMPLICIT_CAST {{"hello", "world"}};
                     const json* source_addr = &source.at("hello");
                     json j = {std::move(source)};
                     CHECK(&(j[0].get_ref<json::object_t const&>().at("hello")) == source_addr);
@@ -1209,7 +1210,7 @@ TEST_CASE("constructors")
 
                 SECTION("assignment with implicit types (object)")
                 {
-                    json::object_t source = {{"hello", "world"}};
+                    json::object_t source = IMPLICIT_CAST {{"hello", "world"}};
                     const json* source_addr = &source.at("hello");
                     json j = {{"key", std::move(source)}};
                     CHECK(&(j["key"].get_ref<json::object_t const&>().at("hello")) == source_addr);
@@ -1422,12 +1423,12 @@ TEST_CASE("constructors")
                 SECTION("string")
                 {
                     {
-                        json j = "foo";
+                        json j = IMPLICIT_CAST "foo";
                         json const j_new(j.begin(), j.end());
                         CHECK(j == j_new);
                     }
                     {
-                        json const j = "bar";
+                        json const j = IMPLICIT_CAST "bar";
                         json const j_new(j.cbegin(), j.cend());
                         CHECK(j == j_new);
                     }
@@ -1436,12 +1437,12 @@ TEST_CASE("constructors")
                 SECTION("number (boolean)")
                 {
                     {
-                        json j = false;
+                        json j = IMPLICIT_CAST false;
                         json const j_new(j.begin(), j.end());
                         CHECK(j == j_new);
                     }
                     {
-                        json const j = true;
+                        json const j = IMPLICIT_CAST true;
                         json const j_new(j.cbegin(), j.cend());
                         CHECK(j == j_new);
                     }
@@ -1450,12 +1451,12 @@ TEST_CASE("constructors")
                 SECTION("number (integer)")
                 {
                     {
-                        json j = 17;
+                        json j = IMPLICIT_CAST 17;
                         json const j_new(j.begin(), j.end());
                         CHECK(j == j_new);
                     }
                     {
-                        json const j = 17;
+                        json const j = IMPLICIT_CAST 17;
                         json const j_new(j.cbegin(), j.cend());
                         CHECK(j == j_new);
                     }
@@ -1464,12 +1465,12 @@ TEST_CASE("constructors")
                 SECTION("number (unsigned)")
                 {
                     {
-                        json j = 17u;
+                        json j = IMPLICIT_CAST 17u;
                         json const j_new(j.begin(), j.end());
                         CHECK(j == j_new);
                     }
                     {
-                        json const j = 17u;
+                        json const j = IMPLICIT_CAST 17u;
                         json const j_new(j.cbegin(), j.cend());
                         CHECK(j == j_new);
                     }
@@ -1478,12 +1479,12 @@ TEST_CASE("constructors")
                 SECTION("number (floating point)")
                 {
                     {
-                        json j = 23.42;
+                        json j = IMPLICIT_CAST 23.42;
                         json const j_new(j.begin(), j.end());
                         CHECK(j == j_new);
                     }
                     {
-                        json const j = 23.42;
+                        json const j = IMPLICIT_CAST 23.42;
                         json const j_new(j.cbegin(), j.cend());
                         CHECK(j == j_new);
                     }
@@ -1509,12 +1510,12 @@ TEST_CASE("constructors")
                 SECTION("string")
                 {
                     {
-                        json j = "foo";
+                        json j = IMPLICIT_CAST "foo";
                         CHECK_THROWS_WITH_AS(json(j.end(), j.end()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                         CHECK_THROWS_WITH_AS(json(j.begin(), j.begin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     }
                     {
-                        json const j = "bar";
+                        json const j = IMPLICIT_CAST "bar";
                         CHECK_THROWS_WITH_AS(json(j.cend(), j.cend()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                         CHECK_THROWS_WITH_AS(json(j.cbegin(), j.cbegin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     }
@@ -1523,12 +1524,12 @@ TEST_CASE("constructors")
                 SECTION("number (boolean)")
                 {
                     {
-                        json j = false;
+                        json j = IMPLICIT_CAST false;
                         CHECK_THROWS_WITH_AS(json(j.end(), j.end()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                         CHECK_THROWS_WITH_AS(json(j.begin(), j.begin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     }
                     {
-                        json const j = true;
+                        json const j = IMPLICIT_CAST true;
                         CHECK_THROWS_WITH_AS(json(j.cend(), j.cend()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                         CHECK_THROWS_WITH_AS(json(j.cbegin(), j.cbegin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     }
@@ -1537,12 +1538,12 @@ TEST_CASE("constructors")
                 SECTION("number (integer)")
                 {
                     {
-                        json j = 17;
+                        json j = IMPLICIT_CAST 17;
                         CHECK_THROWS_WITH_AS(json(j.end(), j.end()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                         CHECK_THROWS_WITH_AS(json(j.begin(), j.begin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     }
                     {
-                        json const j = 17;
+                        json const j = IMPLICIT_CAST 17;
                         CHECK_THROWS_WITH_AS(json(j.cend(), j.cend()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                         CHECK_THROWS_WITH_AS(json(j.cbegin(), j.cbegin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     }
@@ -1551,12 +1552,12 @@ TEST_CASE("constructors")
                 SECTION("number (integer)")
                 {
                     {
-                        json j = 17u;
+                        json j = IMPLICIT_CAST 17u;
                         CHECK_THROWS_WITH_AS(json(j.end(), j.end()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                         CHECK_THROWS_WITH_AS(json(j.begin(), j.begin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     }
                     {
-                        json const j = 17u;
+                        json const j = IMPLICIT_CAST 17u;
                         CHECK_THROWS_WITH_AS(json(j.cend(), j.cend()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                         CHECK_THROWS_WITH_AS(json(j.cbegin(), j.cbegin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     }
@@ -1565,12 +1566,12 @@ TEST_CASE("constructors")
                 SECTION("number (floating point)")
                 {
                     {
-                        json j = 23.42;
+                        json j = IMPLICIT_CAST 23.42;
                         CHECK_THROWS_WITH_AS(json(j.end(), j.end()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                         CHECK_THROWS_WITH_AS(json(j.begin(), j.begin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     }
                     {
-                        json const j = 23.42;
+                        json const j = IMPLICIT_CAST 23.42;
                         CHECK_THROWS_WITH_AS(json(j.cend(), j.cend()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                         CHECK_THROWS_WITH_AS(json(j.cbegin(), j.cbegin()), "[json.exception.invalid_iterator.204] iterators out of range", json::invalid_iterator&);
                     }

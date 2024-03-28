@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #define JSON_TESTS_PRIVATE
 #include <nlohmann/json.hpp>
@@ -125,24 +126,24 @@ TEST_CASE("JSON pointers")
 
             // unescaped access to nonexisting values yield object creation
             CHECK(!j.contains(json::json_pointer("/a/b")));
-            CHECK_NOTHROW(j[json::json_pointer("/a/b")] = 42);
+            CHECK_NOTHROW(j[json::json_pointer("/a/b")] = IMPLICIT_CAST 42);
             CHECK(j.contains(json::json_pointer("/a/b")));
             CHECK(j["a"]["b"] == json(42));
 
             CHECK(!j.contains(json::json_pointer("/a/c/1")));
-            CHECK_NOTHROW(j[json::json_pointer("/a/c/1")] = 42);
+            CHECK_NOTHROW(j[json::json_pointer("/a/c/1")] = IMPLICIT_CAST 42);
             CHECK(j["a"]["c"] == json({nullptr, 42}));
             CHECK(j.contains(json::json_pointer("/a/c/1")));
 
             CHECK(!j.contains(json::json_pointer("/a/d/-")));
-            CHECK_NOTHROW(j[json::json_pointer("/a/d/-")] = 42);
+            CHECK_NOTHROW(j[json::json_pointer("/a/d/-")] = IMPLICIT_CAST 42);
             CHECK(!j.contains(json::json_pointer("/a/d/-")));
             CHECK(j["a"]["d"] == json::array({42}));
             // "/a/b" works for JSON {"a": {"b": 42}}
             CHECK(json({{"a", {{"b", 42}}}})[json::json_pointer("/a/b")] == json(42));
 
             // unresolved access
-            json j_primitive = 1;
+            json j_primitive = IMPLICIT_CAST 1;
             CHECK_THROWS_WITH_AS(j_primitive["/foo"_json_pointer],
                                  "[json.exception.out_of_range.404] unresolved reference token 'foo'", json::out_of_range&);
             CHECK_THROWS_WITH_AS(j_primitive.at("/foo"_json_pointer),
@@ -209,7 +210,7 @@ TEST_CASE("JSON pointers")
                                  "[json.exception.out_of_range.403] key 'a' not found", json::out_of_range&);
 
             // unresolved access
-            const json j_primitive = 1;
+            const json j_primitive = IMPLICIT_CAST 1;
             CHECK_THROWS_WITH_AS(j_primitive["/foo"_json_pointer],
                                  "[json.exception.out_of_range.404] unresolved reference token 'foo'", json::out_of_range&);
             CHECK_THROWS_WITH_AS(j_primitive.at("/foo"_json_pointer),
@@ -261,15 +262,15 @@ TEST_CASE("JSON pointers")
             CHECK(j["/2"_json_pointer] == j[2]);
 
             // assign to existing index
-            j["/1"_json_pointer] = 13;
+            j["/1"_json_pointer] = IMPLICIT_CAST 13;
             CHECK(j[1] == json(13));
 
             // assign to nonexisting index
-            j["/3"_json_pointer] = 33;
+            j["/3"_json_pointer] = IMPLICIT_CAST 33;
             CHECK(j[3] == json(33));
 
             // assign to nonexisting index (with gap)
-            j["/5"_json_pointer] = 55;
+            j["/5"_json_pointer] = IMPLICIT_CAST 55;
             CHECK(j == json({1, 13, 3, 33, nullptr, 55}));
 
             // error with leading 0
@@ -288,22 +289,22 @@ TEST_CASE("JSON pointers")
             CHECK(!j_const.contains("/01"_json_pointer));
 
             // error with incorrect numbers
-            CHECK_THROWS_WITH_AS(j["/one"_json_pointer] = 1,
+            CHECK_THROWS_WITH_AS(j["/one"_json_pointer] = IMPLICIT_CAST 1,
                                  "[json.exception.parse_error.109] parse error: array index 'one' is not a number", json::parse_error&);
             CHECK_THROWS_WITH_AS(j_const["/one"_json_pointer] == 1,
                                  "[json.exception.parse_error.109] parse error: array index 'one' is not a number", json::parse_error&);
 
-            CHECK_THROWS_WITH_AS(j.at("/one"_json_pointer) = 1,
+            CHECK_THROWS_WITH_AS(j.at("/one"_json_pointer) = IMPLICIT_CAST 1,
                                  "[json.exception.parse_error.109] parse error: array index 'one' is not a number", json::parse_error&);
             CHECK_THROWS_WITH_AS(j_const.at("/one"_json_pointer) == 1,
                                  "[json.exception.parse_error.109] parse error: array index 'one' is not a number", json::parse_error&);
 
-            CHECK_THROWS_WITH_AS(j["/+1"_json_pointer] = 1,
+            CHECK_THROWS_WITH_AS(j["/+1"_json_pointer] = IMPLICIT_CAST 1,
                                  "[json.exception.parse_error.109] parse error: array index '+1' is not a number", json::parse_error&);
             CHECK_THROWS_WITH_AS(j_const["/+1"_json_pointer] == 1,
                                  "[json.exception.parse_error.109] parse error: array index '+1' is not a number", json::parse_error&);
 
-            CHECK_THROWS_WITH_AS(j["/1+1"_json_pointer] = 1,
+            CHECK_THROWS_WITH_AS(j["/1+1"_json_pointer] = IMPLICIT_CAST 1,
                                  "[json.exception.out_of_range.404] unresolved reference token '1+1'", json::out_of_range&);
             CHECK_THROWS_WITH_AS(j_const["/1+1"_json_pointer] == 1,
                                  "[json.exception.out_of_range.404] unresolved reference token '1+1'", json::out_of_range&);
@@ -313,8 +314,8 @@ TEST_CASE("JSON pointers")
                 json::json_pointer const jp(std::string("/") + too_large_index);
                 std::string const throw_msg = std::string("[json.exception.out_of_range.404] unresolved reference token '") + too_large_index + "'";
 
-                CHECK_THROWS_WITH_AS(j[jp] = 1, throw_msg.c_str(), json::out_of_range&);
-                CHECK_THROWS_WITH_AS(j_const[jp] == 1, throw_msg.c_str(), json::out_of_range&);
+                CHECK_THROWS_WITH_AS(j[jp] = IMPLICIT_CAST 1, throw_msg.c_str(), json::out_of_range&);
+                CHECK_THROWS_WITH_AS(j_const[jp] == IMPLICIT_CAST 1, throw_msg.c_str(), json::out_of_range&);
             }
 
             // on some machines, the check below is not constant
@@ -328,13 +329,13 @@ TEST_CASE("JSON pointers")
                 json::json_pointer const jp(std::string("/") + too_large_index);
                 std::string const throw_msg = std::string("[json.exception.out_of_range.410] array index ") + too_large_index + " exceeds size_type";
 
-                CHECK_THROWS_WITH_AS(j[jp] = 1, throw_msg.c_str(), json::out_of_range&);
+                CHECK_THROWS_WITH_AS(j[jp] = IMPLICIT_CAST 1, throw_msg.c_str(), json::out_of_range&);
                 CHECK_THROWS_WITH_AS(j_const[jp] == 1, throw_msg.c_str(), json::out_of_range&);
             }
 
             DOCTEST_MSVC_SUPPRESS_WARNING_POP
 
-            CHECK_THROWS_WITH_AS(j.at("/one"_json_pointer) = 1,
+            CHECK_THROWS_WITH_AS(j.at("/one"_json_pointer) = IMPLICIT_CAST 1,
                                  "[json.exception.parse_error.109] parse error: array index 'one' is not a number", json::parse_error&);
             CHECK_THROWS_WITH_AS(j_const.at("/one"_json_pointer) == 1,
                                  "[json.exception.parse_error.109] parse error: array index 'one' is not a number", json::parse_error&);
@@ -348,7 +349,7 @@ TEST_CASE("JSON pointers")
             "[json.exception.parse_error.109] parse error: array index 'three' is not a number", json::parse_error&);
 
             // assign to "-"
-            j["/-"_json_pointer] = 99;
+            j["/-"_json_pointer] = IMPLICIT_CAST 99;
             CHECK(j == json({1, 13, 3, 33, nullptr, 55, 99}));
 
             // error when using "-" in const object
@@ -464,11 +465,11 @@ TEST_CASE("JSON pointers")
         // roundtrip for primitive values
         json j_null;
         CHECK(j_null.flatten().unflatten() == j_null);
-        json j_number = 42;
+        json j_number = IMPLICIT_CAST 42;
         CHECK(j_number.flatten().unflatten() == j_number);
-        json j_boolean = false;
+        json j_boolean = IMPLICIT_CAST false;
         CHECK(j_boolean.flatten().unflatten() == j_boolean);
-        json j_string = "foo";
+        json j_string = IMPLICIT_CAST "foo";
         CHECK(j_string.flatten().unflatten() == j_string);
 
         // roundtrip for empty structured values (will be unflattened to null)
@@ -499,7 +500,7 @@ TEST_CASE("JSON pointers")
         {
             json j;
             // all numbers -> array
-            j["/12"_json_pointer] = 0;
+            j["/12"_json_pointer] = IMPLICIT_CAST 0;
             CHECK(j.is_array());
         }
 
@@ -507,7 +508,7 @@ TEST_CASE("JSON pointers")
         {
             json j;
             // contains a number, but is not a number -> object
-            j["/a12"_json_pointer] = 0;
+            j["/a12"_json_pointer] = IMPLICIT_CAST 0;
             CHECK(j.is_object());
         }
     }
@@ -718,7 +719,7 @@ TEST_CASE("JSON pointers")
         auto ptr = json::json_pointer("/foo");
         std::map<json::json_pointer, int> m;
 
-        m[ptr] = 42;
+        m[ptr] = IMPLICIT_CAST 42;
 
         CHECK(m.find(ptr) != m.end());
     }

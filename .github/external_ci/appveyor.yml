@@ -52,6 +52,13 @@ environment:
       CMAKE_OPTIONS: "-DJSON_ImplicitConversions=OFF"
       GENERATOR: Visual Studio 16 2019
 
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      configuration: Release
+      platform: x86
+      CXX_FLAGS: "/W4 /WX"
+      CMAKE_OPTIONS: "-DJSON_ImplicitConstructors=OFF"
+      GENERATOR: Visual Studio 16 2019
+
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       configuration: Release
       platform: x64

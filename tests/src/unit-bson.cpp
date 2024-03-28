@@ -23,7 +23,7 @@ TEST_CASE("BSON")
     {
         SECTION("null")
         {
-            json const j = nullptr;
+            json const j = IMPLICIT_CAST nullptr;
             CHECK_THROWS_WITH_AS(json::to_bson(j), "[json.exception.type_error.317] to serialize to BSON, top-level type must be object, but is null", json::type_error&);
         }
 
@@ -31,38 +31,38 @@ TEST_CASE("BSON")
         {
             SECTION("true")
             {
-                json const j = true;
+                json const j = IMPLICIT_CAST true;
                 CHECK_THROWS_WITH_AS(json::to_bson(j), "[json.exception.type_error.317] to serialize to BSON, top-level type must be object, but is boolean", json::type_error&);
             }
 
             SECTION("false")
             {
-                json const j = false;
+                json const j = IMPLICIT_CAST false;
                 CHECK_THROWS_WITH_AS(json::to_bson(j), "[json.exception.type_error.317] to serialize to BSON, top-level type must be object, but is boolean", json::type_error&);
             }
         }
 
         SECTION("number")
         {
-            json const j = 42;
+            json const j = IMPLICIT_CAST 42;
             CHECK_THROWS_WITH_AS(json::to_bson(j), "[json.exception.type_error.317] to serialize to BSON, top-level type must be object, but is number", json::type_error&);
         }
 
         SECTION("float")
         {
-            json const j = 4.2;
+            json const j = IMPLICIT_CAST 4.2;
             CHECK_THROWS_WITH_AS(json::to_bson(j), "[json.exception.type_error.317] to serialize to BSON, top-level type must be object, but is number", json::type_error&);
         }
 
         SECTION("string")
         {
-            json const j = "not supported";
+            json const j = IMPLICIT_CAST "not supported";
             CHECK_THROWS_WITH_AS(json::to_bson(j), "[json.exception.type_error.317] to serialize to BSON, top-level type must be object, but is string", json::type_error&);
         }
 
         SECTION("array")
         {
-            json const j = std::vector<int> {1, 2, 3, 4, 5, 6, 7};
+            json const j = IMPLICIT_CAST std::vector<int> {1, 2, 3, 4, 5, 6, 7};
             CHECK_THROWS_WITH_AS(json::to_bson(j), "[json.exception.type_error.317] to serialize to BSON, top-level type must be object, but is array", json::type_error&);
         }
     }

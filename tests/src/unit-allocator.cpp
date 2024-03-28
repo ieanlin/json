@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #define JSON_TESTS_PRIVATE
 #include <nlohmann/json.hpp>
@@ -245,6 +246,7 @@ struct allocator_no_forward : std::allocator<T>
 
 TEST_CASE("bad my_allocator::construct")
 {
+
     SECTION("my_allocator::construct doesn't forward")
     {
         using bad_alloc_json = nlohmann::basic_json<std::map,
@@ -257,7 +259,13 @@ TEST_CASE("bad my_allocator::construct")
               allocator_no_forward>;
 
         bad_alloc_json j;
+
+#if JSON_USE_IMPLICIT_CONSTRUCTORS == 1
         j["test"] = bad_alloc_json::array_t();
         j["test"].push_back("should not leak");
+#else
+        j["test"] = bad_alloc_json(bad_alloc_json::array_t());
+        j["test"].push_back(bad_alloc_json("should not leak"));
+#endif
     }
 }

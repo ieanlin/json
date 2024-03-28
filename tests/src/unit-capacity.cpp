@@ -8,6 +8,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "doctest_compatibility.h"
+#include "test_utils.hpp"
 
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -18,8 +19,8 @@ TEST_CASE("capacity")
     {
         SECTION("boolean")
         {
-            json j = true; // NOLINT(misc-const-correctness)
-            const json j_const = true;
+            json j = IMPLICIT_CAST true; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST true;
 
             SECTION("result of empty")
             {
@@ -36,8 +37,8 @@ TEST_CASE("capacity")
 
         SECTION("string")
         {
-            json j = "hello world"; // NOLINT(misc-const-correctness)
-            const json j_const = "hello world";
+            json j = IMPLICIT_CAST "hello world"; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST "hello world";
 
             SECTION("result of empty")
             {
@@ -132,8 +133,8 @@ TEST_CASE("capacity")
 
         SECTION("number (integer)")
         {
-            json j = -23; // NOLINT(misc-const-correctness)
-            const json j_const = -23;
+            json j = IMPLICIT_CAST -23; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST -23;
 
             SECTION("result of empty")
             {
@@ -150,8 +151,8 @@ TEST_CASE("capacity")
 
         SECTION("number (unsigned)")
         {
-            json j = 23u; // NOLINT(misc-const-correctness)
-            const json j_const = 23u;
+            json j = IMPLICIT_CAST 23u; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST 23u;
 
             SECTION("result of empty")
             {
@@ -168,8 +169,8 @@ TEST_CASE("capacity")
 
         SECTION("number (float)")
         {
-            json j = 23.42; // NOLINT(misc-const-correctness)
-            const json j_const = 23.42;
+            json j = IMPLICIT_CAST 23.42; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST 23.42;
 
             SECTION("result of empty")
             {
@@ -186,8 +187,8 @@ TEST_CASE("capacity")
 
         SECTION("null")
         {
-            json j = nullptr; // NOLINT(misc-const-correctness)
-            const json j_const = nullptr;
+            json j = IMPLICIT_CAST nullptr; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST nullptr;
 
             SECTION("result of empty")
             {
@@ -207,8 +208,8 @@ TEST_CASE("capacity")
     {
         SECTION("boolean")
         {
-            json j = true; // NOLINT(misc-const-correctness)
-            const json j_const = true;
+            json j = IMPLICIT_CAST true; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST true;
 
             SECTION("result of size")
             {
@@ -227,8 +228,8 @@ TEST_CASE("capacity")
 
         SECTION("string")
         {
-            json j = "hello world"; // NOLINT(misc-const-correctness)
-            const json j_const = "hello world";
+            json j = IMPLICIT_CAST "hello world"; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST "hello world";
 
             SECTION("result of size")
             {
@@ -333,8 +334,8 @@ TEST_CASE("capacity")
 
         SECTION("number (integer)")
         {
-            json j = -23; // NOLINT(misc-const-correctness)
-            const json j_const = -23;
+            json j = IMPLICIT_CAST -23; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST -23;
 
             SECTION("result of size")
             {
@@ -353,8 +354,8 @@ TEST_CASE("capacity")
 
         SECTION("number (unsigned)")
         {
-            json j = 23u; // NOLINT(misc-const-correctness)
-            const json j_const = 23u;
+            json j = IMPLICIT_CAST 23u; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST 23u;
 
             SECTION("result of size")
             {
@@ -373,8 +374,8 @@ TEST_CASE("capacity")
 
         SECTION("number (float)")
         {
-            json j = 23.42; // NOLINT(misc-const-correctness)
-            const json j_const = 23.42;
+            json j = IMPLICIT_CAST 23.42; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST 23.42;
 
             SECTION("result of size")
             {
@@ -393,8 +394,8 @@ TEST_CASE("capacity")
 
         SECTION("null")
         {
-            json j = nullptr; // NOLINT(misc-const-correctness)
-            const json j_const = nullptr;
+            json j = IMPLICIT_CAST nullptr; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST nullptr;
 
             SECTION("result of size")
             {
@@ -416,8 +417,8 @@ TEST_CASE("capacity")
     {
         SECTION("boolean")
         {
-            json j = true; // NOLINT(misc-const-correctness)
-            const json j_const = true;
+            json j = IMPLICIT_CAST true; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST true;
 
             SECTION("result of max_size")
             {
@@ -428,8 +429,8 @@ TEST_CASE("capacity")
 
         SECTION("string")
         {
-            json j = "hello world"; // NOLINT(misc-const-correctness)
-            const json j_const = "hello world";
+            json j = IMPLICIT_CAST "hello world"; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST "hello world";
 
             SECTION("result of max_size")
             {
@@ -494,8 +495,8 @@ TEST_CASE("capacity")
 
         SECTION("number (integer)")
         {
-            json j = -23; // NOLINT(misc-const-correctness)
-            const json j_const = -23;
+            json j = IMPLICIT_CAST -23; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST -23;
 
             SECTION("result of max_size")
             {
@@ -506,8 +507,8 @@ TEST_CASE("capacity")
 
         SECTION("number (unsigned)")
         {
-            json j = 23u; // NOLINT(misc-const-correctness)
-            const json j_const = 23u;
+            json j = IMPLICIT_CAST 23u; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST 23u;
 
             SECTION("result of max_size")
             {
@@ -518,8 +519,8 @@ TEST_CASE("capacity")
 
         SECTION("number (float)")
         {
-            json j = 23.42; // NOLINT(misc-const-correctness)
-            const json j_const = 23.42;
+            json j = IMPLICIT_CAST 23.42; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST 23.42;
 
             SECTION("result of max_size")
             {
@@ -530,8 +531,8 @@ TEST_CASE("capacity")
 
         SECTION("null")
         {
-            json j = nullptr; // NOLINT(misc-const-correctness)
-            const json j_const = nullptr;
+            json j = IMPLICIT_CAST nullptr; // NOLINT(misc-const-correctness)
+            const json j_const = IMPLICIT_CAST nullptr;
 
             SECTION("result of max_size")
             {

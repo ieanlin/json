@@ -230,7 +230,7 @@ TEST_CASE("BJData")
 
         SECTION("null")
         {
-            json const j = nullptr;
+            json const j = IMPLICIT_CAST nullptr;
             std::vector<uint8_t> const expected = {'Z'};
             const auto result = json::to_bjdata(j);
             CHECK(result == expected);
@@ -244,7 +244,7 @@ TEST_CASE("BJData")
         {
             SECTION("true")
             {
-                json const j = true;
+                json const j = IMPLICIT_CAST true;
                 std::vector<uint8_t> const expected = {'T'};
                 const auto result = json::to_bjdata(j);
                 CHECK(result == expected);
@@ -256,7 +256,7 @@ TEST_CASE("BJData")
 
             SECTION("false")
             {
-                json const j = false;
+                json const j = IMPLICIT_CAST false;
                 std::vector<uint8_t> const expected = {'F'};
                 const auto result = json::to_bjdata(j);
                 CHECK(result == expected);
@@ -292,7 +292,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json const j = i;
+                        json const j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_integer());
@@ -351,7 +351,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json const j = i;
+                        json const j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_integer());
@@ -392,7 +392,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json const j = i;
+                        json const j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_integer());
@@ -423,7 +423,7 @@ TEST_CASE("BJData")
 
                 SECTION("-9263 (int16)")
                 {
-                    json const j = -9263;
+                    json const j = IMPLICIT_CAST -9263;
                     std::vector<uint8_t> const expected = {'I', 0xd1, 0xdb};
 
                     // compare result + size
@@ -448,7 +448,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json const j = i;
+                        json const j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_integer());
@@ -482,7 +482,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json j = -1;
+                        json j = IMPLICIT_CAST -1;
                         j.get_ref<json::number_integer_t&>() = static_cast<json::number_integer_t>(i);
 
                         // check type
@@ -517,7 +517,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json j = -1;
+                        json j = IMPLICIT_CAST -1;
                         j.get_ref<json::number_integer_t&>() = static_cast<json::number_integer_t>(i);
 
                         // check type
@@ -552,7 +552,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json j = -1;
+                        json j = IMPLICIT_CAST -1;
                         j.get_ref<json::number_integer_t&>() = static_cast<json::number_integer_t>(i);
 
                         // check type
@@ -592,7 +592,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json j = -1;
+                        json j = IMPLICIT_CAST -1;
                         j.get_ref<json::number_integer_t&>() = static_cast<json::number_integer_t>(i);
 
                         // check type
@@ -632,7 +632,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json j = -1;
+                        json j = IMPLICIT_CAST -1;
                         j.get_ref<json::number_integer_t&>() = static_cast<json::number_integer_t>(i);
 
                         // check type
@@ -677,7 +677,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json j = -1;
+                        json j = IMPLICIT_CAST -1;
                         j.get_ref<json::number_integer_t&>() = static_cast<json::number_integer_t>(i);
 
                         // check type
@@ -720,7 +720,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json j = -1;
+                        json j = IMPLICIT_CAST -1;
                         j.get_ref<json::number_integer_t&>() = static_cast<json::number_integer_t>(i);
 
                         // check type
@@ -771,7 +771,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json const j = i;
+                        json const j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_unsigned());
@@ -823,7 +823,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with unsigned integer number
-                        json const j = i;
+                        json const j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_unsigned());
@@ -854,7 +854,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with unsigned integer number
-                        json const j = i;
+                        json const j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_unsigned());
@@ -885,7 +885,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with unsigned integer number
-                        json const j = i;
+                        json const j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_unsigned());
@@ -924,7 +924,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with unsigned integer number
-                        json const j = i;
+                        json const j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_unsigned());
@@ -962,7 +962,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with unsigned integer number
-                        json const j = i;
+                        json const j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_unsigned());
@@ -1006,7 +1006,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with unsigned integer number
-                        json const j = i;
+                        json const j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_unsigned());
@@ -1048,7 +1048,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json const j = i;
+                        json const j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_unsigned());
@@ -1098,7 +1098,7 @@ TEST_CASE("BJData")
                         CAPTURE(i)
 
                         // create JSON value with integer number
-                        json const j = i;
+                        json const j = IMPLICIT_CAST i;
 
                         // check type
                         CHECK(j.is_number_unsigned());
@@ -1145,7 +1145,7 @@ TEST_CASE("BJData")
                 SECTION("3.1415925")
                 {
                     double v = 3.1415925;
-                    json const j = v;
+                    json const j = IMPLICIT_CAST v;
                     std::vector<uint8_t> const expected =
                     {
                         'D', 0xfc, 0xde, 0xa6, 0x3f, 0xfb, 0x21, 0x09, 0x40
@@ -1333,7 +1333,7 @@ TEST_CASE("BJData")
 
                     // create JSON value with string containing of N * 'x'
                     const auto s = std::string(N, 'x');
-                    json const j = s;
+                    json const j = IMPLICIT_CAST s;
 
                     // create expected byte vector
                     std::vector<uint8_t> expected;
@@ -1369,7 +1369,7 @@ TEST_CASE("BJData")
 
                     // create JSON value with string containing of N * 'x'
                     const auto s = std::string(N, 'x');
-                    json const j = s;
+                    json const j = IMPLICIT_CAST s;
 
                     // create expected byte vector
                     std::vector<uint8_t> expected;
@@ -1405,7 +1405,7 @@ TEST_CASE("BJData")
 
                     // create JSON value with string containing of N * 'x'
                     const auto s = std::string(N, 'x');
-                    json const j = s;
+                    json const j = IMPLICIT_CAST s;
 
                     // create expected byte vector (hack: create string first)
                     std::vector<uint8_t> expected(N, 'x');
@@ -1439,7 +1439,7 @@ TEST_CASE("BJData")
 
                     // create JSON value with string containing of N * 'x'
                     const auto s = std::string(N, 'x');
-                    json const j = s;
+                    json const j = IMPLICIT_CAST s;
 
                     // create expected byte vector (hack: create string first)
                     std::vector<uint8_t> expected(N, 'x');
@@ -1473,7 +1473,7 @@ TEST_CASE("BJData")
 
                     // create JSON value with string containing of N * 'x'
                     const auto s = std::string(N, 'x');
-                    json const j = s;
+                    json const j = IMPLICIT_CAST s;
 
                     // create expected byte vector (hack: create string first)
                     std::vector<uint8_t> expected(N, 'x');
@@ -1546,7 +1546,7 @@ TEST_CASE("BJData")
                     }
 
                     // roundtrip only works to an array of numbers
-                    json j_out = s;
+                    json j_out = IMPLICIT_CAST s;
                     CHECK(json::from_bjdata(result) == j_out);
                     CHECK(json::from_bjdata(result, true, false) == j_out);
                 }
@@ -1583,7 +1583,7 @@ TEST_CASE("BJData")
                     CHECK(result.back() != '\x00');
 
                     // roundtrip only works to an array of numbers
-                    json j_out = s;
+                    json j_out = IMPLICIT_CAST s;
                     CHECK(json::from_bjdata(result) == j_out);
                     CHECK(json::from_bjdata(result, true, false) == j_out);
                 }
@@ -1620,7 +1620,7 @@ TEST_CASE("BJData")
                     CHECK(result.back() != '\x00');
 
                     // roundtrip only works to an array of numbers
-                    json j_out = s;
+                    json j_out = IMPLICIT_CAST s;
                     CHECK(json::from_bjdata(result) == j_out);
                     CHECK(json::from_bjdata(result, true, false) == j_out);
                 }
@@ -1657,7 +1657,7 @@ TEST_CASE("BJData")
                     CHECK(result.back() != '\x00');
 
                     // roundtrip only works to an array of numbers
-                    json j_out = s;
+                    json j_out = IMPLICIT_CAST s;
                     CHECK(json::from_bjdata(result) == j_out);
                     CHECK(json::from_bjdata(result, true, false) == j_out);
                 }
@@ -1696,7 +1696,7 @@ TEST_CASE("BJData")
                     CHECK(result.back() != '\x00');
 
                     // roundtrip only works to an array of numbers
-                    json j_out = s;
+                    json j_out = IMPLICIT_CAST s;
                     CHECK(json::from_bjdata(result) == j_out);
                     CHECK(json::from_bjdata(result, true, false) == j_out);
                 }
@@ -1727,7 +1727,7 @@ TEST_CASE("BJData")
                     CHECK(result.back() != '\x00');
 
                     // roundtrip only works to an array of numbers
-                    json j_out = s;
+                    json j_out = IMPLICIT_CAST s;
                     CHECK(json::from_bjdata(result) == j_out);
                     CHECK(json::from_bjdata(result, true, false) == j_out);
                 }
@@ -1754,7 +1754,7 @@ TEST_CASE("BJData")
                     CHECK(result.back() != '\x00');
 
                     // roundtrip only works to an array of numbers
-                    json j_out = s;
+                    json j_out = IMPLICIT_CAST s;
                     CHECK(json::from_bjdata(result) == j_out);
                     CHECK(json::from_bjdata(result, true, false) == j_out);
                 }
@@ -2310,7 +2310,7 @@ TEST_CASE("BJData")
                 CHECK(json::from_bjdata(v_D) == 3.14159);
 
                 // float32 is serialized as float64 as the library does not support float32
-                CHECK(json::to_bjdata(json::from_bjdata(v_d)) == json::to_bjdata(3.14159f));
+                CHECK(json::to_bjdata(json::from_bjdata(v_d)) == json::to_bjdata(IMPLICIT_CAST 3.14159f));
             }
         }
 
@@ -3201,7 +3201,7 @@ TEST_CASE("Universal Binary JSON Specification Examples 1")
     {
         SECTION("English")
         {
-            json const j = "hello";
+            json const j = IMPLICIT_CAST "hello";
             std::vector<uint8_t> v = {'S', 'i', 5, 'h', 'e', 'l', 'l', 'o'};
             CHECK(json::to_bjdata(j) == v);
             CHECK(json::from_bjdata(v) == j);
@@ -3209,7 +3209,7 @@ TEST_CASE("Universal Binary JSON Specification Examples 1")
 
         SECTION("Russian")
         {
-            json const j = "привет";
+            json const j = IMPLICIT_CAST "привет";
             std::vector<uint8_t> v = {'S', 'i', 12, 0xD0, 0xBF, 0xD1, 0x80, 0xD0, 0xB8, 0xD0, 0xB2, 0xD0, 0xB5, 0xD1, 0x82};
             CHECK(json::to_bjdata(j) == v);
             CHECK(json::from_bjdata(v) == j);
@@ -3217,7 +3217,7 @@ TEST_CASE("Universal Binary JSON Specification Examples 1")
 
         SECTION("Russian")
         {
-            json const j = "مرحبا";
+            json const j = IMPLICIT_CAST "مرحبا";
             std::vector<uint8_t> v = {'S', 'i', 10, 0xD9, 0x85, 0xD8, 0xB1, 0xD8, 0xAD, 0xD8, 0xA8, 0xD8, 0xA7};
             CHECK(json::to_bjdata(j) == v);
             CHECK(json::from_bjdata(v) == j);

@@ -42,6 +42,7 @@ option(JSON_CI                             "Enable CI build targets." OFF)
 option(JSON_Diagnostics                    "Use extended diagnostic messages." OFF)
 option(JSON_GlobalUDLs                     "Place use-defined string literals in the global namespace." ON)
 option(JSON_ImplicitConversions            "Enable implicit conversions." ON)
+option(JSON_ImplicitConstructors           "Enable implicit constructors." ON)
 option(JSON_DisableEnumSerialization       "Disable default integer enum serialization." OFF)
 option(JSON_LegacyDiscardedValueComparison "Enable legacy discarded value comparison." OFF)
 option(JSON_Install                        "Install CMake targets during install step." ${MAIN_PROJECT})
@@ -80,6 +81,10 @@ if (NOT JSON_ImplicitConversions)
     message(STATUS "Implicit conversions are disabled")
 endif()
 
+if (NOT JSON_ImplicitConstructors)
+    message(STATUS "Implicit constructors are disabled")
+endif()
+
 if (JSON_DisableEnumSerialization)
     message(STATUS "Enum integer serialization is disabled")
 endif()
@@ -113,6 +118,7 @@ target_compile_definitions(
     INTERFACE
     $<$<NOT:$<BOOL:${JSON_GlobalUDLs}>>:JSON_USE_GLOBAL_UDLS=0>
     $<$<NOT:$<BOOL:${JSON_ImplicitConversions}>>:JSON_USE_IMPLICIT_CONVERSIONS=0>
+    $<$<NOT:$<BOOL:${JSON_ImplicitConstructors}>>:JSON_USE_IMPLICIT_CONSTRUCTORS=0>
     $<$<BOOL:${JSON_DisableEnumSerialization}>:JSON_DISABLE_ENUM_SERIALIZATION=1>
     $<$<BOOL:${JSON_Diagnostics}>:JSON_DIAGNOSTICS=1>
     $<$<BOOL:${JSON_LegacyDiscardedValueComparison}>:JSON_USE_LEGACY_DISCARDED_VALUE_COMPARISON=1>
