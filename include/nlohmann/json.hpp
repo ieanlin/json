@@ -1212,8 +1212,10 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     /// @brief move constructor
     /// @sa https://json.nlohmann.me/api/basic_json/basic_json/
     basic_json(basic_json&& other) noexcept
-        : json_base_class_t(std::forward<json_base_class_t>(other)),
-          m_data(std::move(other.m_data))
+        // False positive by clang-tidy. While it is correct to warn about use after move,
+        // it is perfectly legal to do this in the move constructor.
+        : json_base_class_t(std::forward<json_base_class_t>(other)), // NOLINT(bugprone-use-after-move)
+          m_data(std::move(other.m_data)) // NOLINT(bugprone-use-after-move)
     {
         // check that passed value is valid
         other.assert_invariant(false);
@@ -3552,7 +3554,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
 
     /// @brief exchanges the values
     /// @sa https://json.nlohmann.me/api/basic_json/swap/
-    void swap(typename binary_t::container_type& other) // NOLINT(bugprone-exception-escape)
+    void swap(typename binary_t::container_type& other) // NOLINT(bugprone-exception-escape, cppcoreguidelines-noexcept-swap, performance-noexcept-swap)
     {
         // swap only works for strings
         if (JSON_HEDLEY_LIKELY(is_binary()))
