@@ -137,7 +137,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     )
     {
         return ::nlohmann::detail::parser<basic_json, InputAdapterType>(std::move(adapter),
-                std::move(cb), allow_exceptions, ignore_comments);
+               std::move(cb), allow_exceptions, ignore_comments);
     }
 
   private:
@@ -1212,8 +1212,8 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     /// @brief move constructor
     /// @sa https://json.nlohmann.me/api/basic_json/basic_json/
     basic_json(basic_json&& other) noexcept
-        // False positive by clang-tidy. While it is correct to warn about use after move,
-        // it is perfectly legal to do this in the move constructor.
+    // False positive by clang-tidy. While it is correct to warn about use after move,
+    // it is perfectly legal to do this in the move constructor.
         : json_base_class_t(std::forward<json_base_class_t>(other)), // NOLINT(bugprone-use-after-move)
           m_data(std::move(other.m_data)) // NOLINT(bugprone-use-after-move)
     {
