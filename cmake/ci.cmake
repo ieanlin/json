@@ -111,6 +111,7 @@ set(CLANG_CXXFLAGS
     -Wno-unsafe-buffer-usage
     -Wno-weak-vtables
     -Wno-reserved-identifier
+    -Wno-gnu-zero-variadic-macro-arguments
 )
 
 # Warning flags determined for GCC 13.0 (experimental) with https://github.com/nlohmann/gcc_flags:
