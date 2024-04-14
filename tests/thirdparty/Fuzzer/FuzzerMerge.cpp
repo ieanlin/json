@@ -231,7 +231,7 @@ void Fuzzer::CrashResistantMerge(const std::vector<std::string> &Args,
     ControlFile << Path << "\n";
   ControlFile.close();
 
-  // Execute the inner process untill it passes.
+  // Execute the inner process until it passes.
   // Every inner process should execute at least one input.
   std::string BaseCmd = CloneArgsWithoutX(Args, "keep-all-flags");
   for (size_t i = 1; i <= AllFiles.size(); i++) {
