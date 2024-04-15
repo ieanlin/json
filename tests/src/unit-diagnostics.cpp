@@ -39,7 +39,12 @@ TEST_CASE("Better diagnostics")
     {
         json j;
         j["object"]["object"] = true;
+
+#if defined(JSON_HAS_CPP_17)
+        CHECK_THROWS_WITH_AS(j["object"].at("not_found"), "[json.exception.out_of_range.403] (/object) key not found (key is an rvalue and cannot be shown)", json::out_of_range);
+#else
         CHECK_THROWS_WITH_AS(j["object"].at("not_found"), "[json.exception.out_of_range.403] (/object) key 'not_found' not found", json::out_of_range);
+#endif
     }
 
     SECTION("array index out of range")

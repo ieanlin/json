@@ -341,7 +341,11 @@ TEST_CASE_TEMPLATE("Serialization/deserialization via NLOHMANN_DEFINE_TYPE_INTRU
         // check exception in case of missing field
         json j = json(p1);
         j.erase("age");
+#if defined(JSON_HAS_CPP_17)
+        CHECK_THROWS_WITH_AS(j.get<T>(), "[json.exception.out_of_range.403] key not found (key is an rvalue and cannot be shown)", json::out_of_range);
+#else
         CHECK_THROWS_WITH_AS(j.get<T>(), "[json.exception.out_of_range.403] key 'age' not found", json::out_of_range);
+#endif
     }
 }
 

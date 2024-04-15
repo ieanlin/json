@@ -1212,15 +1212,13 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     /// @brief move constructor
     /// @sa https://json.nlohmann.me/api/basic_json/basic_json/
     basic_json(basic_json&& other) noexcept
-        : json_base_class_t(std::forward<json_base_class_t>(other)),
-          m_data(std::move(other.m_data))
+    // check that passed value is valid (has to be done before forwarding)
+        : json_base_class_t((other.assert_invariant(false), std::forward<json_base_class_t>(other))),
+          m_data(std::move(other.m_data))// NOLINT(bugprone-use-after-move,hicpp-invalid-access-moved)
     {
-        // check that passed value is valid
-        other.assert_invariant(false);
-
         // invalidate payload
-        other.m_data.m_type = value_t::null;
-        other.m_data.m_value = {};
+        other.m_data.m_type = value_t::null; // NOLINT(bugprone-use-after-move,hicpp-invalid-access-moved)
+        other.m_data.m_value = {};// NOLINT(bugprone-use-after-move,hicpp-invalid-access-moved)
 
         set_parents();
         assert_invariant();
@@ -2012,7 +2010,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
         auto it = m_data.m_value.object->find(std::forward<KeyType>(key));
         if (it == m_data.m_value.object->end())
         {
-            JSON_THROW(out_of_range::create(403, detail::concat("key '", string_t(std::forward<KeyType>(key)), "' not found"), this));
+            JSON_THROW(out_of_range::create(403, "key not found (key is an rvalue and cannot be shown)", this));
         }
         return set_parent(it->second);
     }
@@ -2050,7 +2048,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
         auto it = m_data.m_value.object->find(std::forward<KeyType>(key));
         if (it == m_data.m_value.object->end())
         {
-            JSON_THROW(out_of_range::create(403, detail::concat("key '", string_t(std::forward<KeyType>(key)), "' not found"), this));
+            JSON_THROW(out_of_range::create(403, "key not found (key is an rvalue and cannot be shown)", this));
         }
         return it->second;
     }
