@@ -585,6 +585,12 @@ TEST_CASE("parser class")
                 CHECK_THROWS_WITH_AS(parser_helper("1.18973e+4932").empty(), "[json.exception.out_of_range.406] number overflow parsing '1.18973e+4932'", json::out_of_range&);
             }
 
+            SECTION("out-of-range-conversion")
+            {
+                // overflows during parsing with casting yield an exception
+                CHECK_THROWS_WITH_AS(parser_helper("123456").get<int16_t>(), "[json.exception.out_of_range.406] value 123456 is out of target integer range [-32768, 32767]", json::out_of_range&);
+            }
+
             SECTION("invalid numbers")
             {
                 // numbers must not begin with "+"

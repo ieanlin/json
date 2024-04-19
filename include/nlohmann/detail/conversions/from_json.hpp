@@ -43,6 +43,24 @@ inline void from_json(const BasicJsonType& j, typename std::nullptr_t& n)
     n = nullptr;
 }
 
+template <typename BasicJsonType, typename ArithmeticTypeTarget, typename ArithmeticTypeSource>
+ArithmeticTypeTarget static_cast_check_range(const BasicJsonType& j)
+{
+    const auto val = *j.template get_ptr<ArithmeticTypeSource*>();
+    const auto min = std::numeric_limits<ArithmeticTypeTarget>::min();
+    const auto max = std::numeric_limits<ArithmeticTypeTarget>::max();
+    if (val < min && val > max)
+    {
+        JSON_THROW(
+            out_of_range::create(
+                406,
+                "value " + std::to_string(val) + " is out of target integer range [" + std::to_string(min) + ", " +
+                    std::to_string(max) + "]", &j));
+    }
+    return static_cast<ArithmeticTypeTarget>(val);
+}
+
+
 // overloads for basic_json template parameters
 template < typename BasicJsonType, typename ArithmeticType,
            enable_if_t < std::is_arithmetic<ArithmeticType>::value&&
@@ -54,17 +72,17 @@ void get_arithmetic_value(const BasicJsonType& j, ArithmeticType& val)
     {
         case value_t::number_unsigned:
         {
-            val = static_cast<ArithmeticType>(*j.template get_ptr<const typename BasicJsonType::number_unsigned_t*>());
+            val = static_cast_check_range<BasicJsonType, ArithmeticType, const typename BasicJsonType::number_unsigned_t>(j);
             break;
         }
         case value_t::number_integer:
         {
-            val = static_cast<ArithmeticType>(*j.template get_ptr<const typename BasicJsonType::number_integer_t*>());
+            val = static_cast_check_range<BasicJsonType, ArithmeticType, const typename BasicJsonType::number_integer_t>(j);
             break;
         }
         case value_t::number_float:
         {
-            val = static_cast<ArithmeticType>(*j.template get_ptr<const typename BasicJsonType::number_float_t*>());
+            val = static_cast_check_range<BasicJsonType, ArithmeticType, const typename BasicJsonType::number_float_t>(j);
             break;
         }
 
@@ -343,17 +361,17 @@ inline void from_json(const BasicJsonType& j, ArithmeticType& val)
     {
         case value_t::number_unsigned:
         {
-            val = static_cast<ArithmeticType>(*j.template get_ptr<const typename BasicJsonType::number_unsigned_t*>());
+            val = static_cast_check_range<BasicJsonType, ArithmeticType, const typename BasicJsonType::number_unsigned_t>(j);
             break;
         }
         case value_t::number_integer:
         {
-            val = static_cast<ArithmeticType>(*j.template get_ptr<const typename BasicJsonType::number_integer_t*>());
+            val = static_cast_check_range<BasicJsonType, ArithmeticType, const typename BasicJsonType::number_integer_t>(j);
             break;
         }
         case value_t::number_float:
         {
-            val = static_cast<ArithmeticType>(*j.template get_ptr<const typename BasicJsonType::number_float_t*>());
+            val = static_cast_check_range<BasicJsonType, ArithmeticType, const typename BasicJsonType::number_float_t>(j);
             break;
         }
         case value_t::boolean:
