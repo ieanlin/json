@@ -55,7 +55,7 @@ ArithmeticTypeTarget static_cast_check_range(const BasicJsonType& j)
         bool valIsInf = false;
         if constexpr (std::is_floating_point<ArithmeticTypeSource>::value)
         {
-            valIsInf = isinf(val);
+            valIsInf = std::isinf(val);
         }
         if ((val < min || val > max) && !valIsInf)
         {
