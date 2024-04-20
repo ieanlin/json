@@ -589,6 +589,9 @@ TEST_CASE("parser class")
             {
                 // overflows during parsing with casting yield an exception
                 CHECK_THROWS_WITH_AS(parser_helper("123456").get<int16_t>(), "[json.exception.out_of_range.406] value 123456 is out of target integer range [-32768, 32767]", json::out_of_range&);
+                CHECK_THROWS_WITH_AS(parser_helper("65536").get<int16_t>(), "[json.exception.out_of_range.406] value 65536 is out of target integer range [-32768, 32767]", json::out_of_range&);
+                CHECK_THROWS_WITH_AS(parser_helper("-32769").get<int16_t>(), "[json.exception.out_of_range.406] value -32769 is out of target integer range [-32768, 32767]", json::out_of_range&);
+                CHECK_THROWS_WITH_AS(parser_helper("18446744073709559808").get<uint64_t>(), "[json.exception.out_of_range.406] value 18446744073709559808.000000 is out of target integer range [0, 18446744073709551615]", json::out_of_range&);
             }
 
             SECTION("invalid numbers")

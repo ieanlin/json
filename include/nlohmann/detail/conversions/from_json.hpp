@@ -46,16 +46,26 @@ inline void from_json(const BasicJsonType& j, typename std::nullptr_t& n)
 template <typename BasicJsonType, typename ArithmeticTypeTarget, typename ArithmeticTypeSource>
 ArithmeticTypeTarget static_cast_check_range(const BasicJsonType& j)
 {
-    const auto val = *j.template get_ptr<ArithmeticTypeSource*>();
-    const auto min = std::numeric_limits<ArithmeticTypeTarget>::min();
-    const auto max = std::numeric_limits<ArithmeticTypeTarget>::max();
-    if (val < min && val > max)
+    const ArithmeticTypeSource val = *j.template get_ptr<ArithmeticTypeSource*>();
+    if constexpr (sizeof(ArithmeticTypeTarget) < sizeof(ArithmeticTypeSource) || std::is_floating_point<ArithmeticTypeSource>::value)
     {
-        JSON_THROW(
-            out_of_range::create(
-                406,
-                "value " + std::to_string(val) + " is out of target integer range [" + std::to_string(min) + ", " +
-                    std::to_string(max) + "]", &j));
+        const ArithmeticTypeSource min =
+            std::is_signed<ArithmeticTypeSource>::value ? std::numeric_limits<ArithmeticTypeTarget>::lowest() : 0;
+        const ArithmeticTypeSource max = std::numeric_limits<ArithmeticTypeTarget>::max();
+        bool valIsInf = false;
+        if constexpr (std::is_floating_point<ArithmeticTypeSource>::value)
+        {
+            valIsInf = isinf(val);
+        }
+        if ((val < min || val > max) && !valIsInf)
+        {
+            JSON_THROW(
+                out_of_range::create(
+                    406,
+                    "value " + std::to_string(val) + " is out of target integer range [" +
+                        std::to_string(std::numeric_limits<ArithmeticTypeTarget>::lowest()) + ", " +
+                        std::to_string(std::numeric_limits<ArithmeticTypeTarget>::max()) + "]", &j));
+        }
     }
     return static_cast<ArithmeticTypeTarget>(val);
 }
