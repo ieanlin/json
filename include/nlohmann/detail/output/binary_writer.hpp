@@ -1085,7 +1085,7 @@ class binary_writer
             write_bson_entry_header(name, 0x12 /* int64 */);
             write_number<std::int64_t>(static_cast<std::int64_t>(j.m_data.m_value.number_unsigned), true);
         }
-        else if (j.m_data.m_value.number_unsigned <= static_cast<std::uint64_t>((std::numeric_limits<std::uint64_t>::max)()))
+        else if (j.m_data.m_value.number_unsigned <= (std::numeric_limits<std::uint64_t>::max)())
         {
             write_bson_entry_header(name, 11 /* uint64 */);
             write_number<std::uint64_t>(static_cast<std::uint64_t>(j.m_data.m_value.number_unsigned), true);
